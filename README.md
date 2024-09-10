@@ -244,8 +244,8 @@ The largest index number that is also a prime number is found (using code and ac
 
 A special property of such a collection with a prime number of elements is that if you take ANY number and ***repeatedly*** add it ato ANY initial index number, and use %prime (modulo prime) arithmetic, then every other number will eventually be hit exactly once before the value returns to the original. For example…
 
-Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We can take ANY number, lets say 10. With modulo 7 arithmetic, 10%7 is the same as 3. Now let’s repeatedly add 3 to any of the 7 elements, let’s arbitrarily start with 4.
-
+Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We can take ANY number, let's say 10. With modulo 7 arithmetic, 10%7 is the same as 3. Now let’s repeatedly add 3 to any of the 7 elements, let’s arbitrarily start with 4.
+<p align="center">
 4+3%7=0
 
 0+3%7=3
@@ -259,14 +259,14 @@ Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We
 5+3%7=1
 
 1+3%7=4
-
-Note that we use modulo twice to go from 10 to 3 and then used it again in the equation – that doesn’t matter. We could easily have added 10 to each number and used modulo later. As long as it is done just before getting to the answer, it doesnt matter. You can even apply it to every number and it won’t make a difference.
+</p>
+Note that we used modulo twice to go from 10 to 3 and then used it again in the equation – that doesn’t matter. We could easily have added 10 to each number and used modulo later. As long as it is done just before getting to the answer, it doesnt matter. You can even apply it to every number and it won’t make a difference.
 
 In the above example, we started with 4, got to 0, 3, 6, 2, 5, 1, and then back to 4. Every other number was “hit” on the way back to 4.
 
 With numbers in the millions, in a prime set, adding a hash (potentially up to 2^256) to each number will produce a new set with no overlap. Notice in the example above, the same number was added to each element and the resulting numbers only occur once (0,3,6,2,5,1,4). Shuffled in ascending order, 0,1,2,3,4,5,6
 
-With a large enough set and a large enough number added, the 0,3,6,2,5,1,4 type of result, with millions of values, will seem random and unpedictable in advance. Not being able to predict how the shuffle will occur is a result of using a FUTURE Bitcoin hash value.
+With a large enough set and a large enough number added, the 0,3,6,2,5,1,4 type of result, with millions of values, will seem random and unpredictable in advance. Not being able to predict how the shuffle will occur is a result of using a FUTURE Bitcoin hash value.
 
 ***Mixed_index_of key = key_index + starting_Bitcoin_block_hash % prime_of_set***
 
@@ -300,7 +300,7 @@ Malicious actors need to be considered also, but BitVotr uses a different system
 
 ### RAFT Megaclusters
 
-With millions of voters, their computers (all with variable computing power) will not be able to tolerate RAFT consensus communication. To overcome this problem, a Heirarchical RAFT system will be used. Clusters of 7 will elect a leader to join a higher-order cluster. Every initial cluster shall eventually be part of a pyramid of 7x7x7x7x7 voters for a total of 16,807 voters in each pyramid. Their vote and signature data should be uniformly agreed on, and become final – each member in the pyramid ends up with an identical copy.
+With millions of voters, their computers (all with variable computing power) will not be able to tolerate RAFT consensus communication. To overcome this problem, a Hierarchical RAFT system will be used. Clusters of 7 will elect a leader to join a higher-order cluster. Every initial cluster shall eventually be part of a pyramid of 7x7x7x7x7 voters for a total of 16,807 voters in each pyramid. Their vote and signature data should be uniformly agreed on, and become final – each member in the pyramid ends up with an identical copy.
 
 Leaders, shaded, in clusters of level 1 become nodes in the level above and so on. Not all nodes shown, and not all levels shown.
 
@@ -316,25 +316,25 @@ Leaders, shaded, in clusters of level 1 become nodes in the level above and so o
 
 Keeping cluster size small reduces the burden on weaker computers. But increasing the number increases the tolerance to faults. with a goup of 4, 5 or 6, only 1 fault can be tolerated, and 2 would cause a failure according to Byzantine Fault Tolerance rules. Having 7, 8, or 9 can tolerate 2 faults but not three. Without any known evidence, 7 was thought to be a good balance, but this can be changed depending on how such a system performs in the real world and pilots.
 
-What if a RAFT group fails 'majority rule' and cannot maintain a connection to the levels above?
+### What if a RAFT group fails 'majority rule' and cannot maintain a connection to the levels above?
 
 If this happens, there may be time for the group to regain connection. It depends if that segment contributed to the merged tally that all the other leaders have approved. At that point, a disconnection would mean signatures from that segment can not reach the higher level, impacting on the number of signtures collected, and risking a Byzantin Fault.
 
 But if the disconnection from the group happens before the merged tally, then after some timeout, the group will create a tally excluding that disconnected segment, and work towards achieving sufficient signatures on a smaller tally. If the lost segment reconnects, the group shall continue to finish its work on the smaller tally, and only after it has completed the task, it would start over and and work on the larger merge. If they finish in time before the period is over, the larger merge shall count and the smaller one is discarded. If they don't finish the larger merge in time, the original connected nodes will push on with the smaller merge, and the disconnected segment is added to the drop list. In this way, the orginal nodes are not disadvantaged by a disconnection and slow reconnection.
 
-What if there is network isolation in a RAFT cluster, resulting in a split group with two nodes (one from each split) that thinks they are leaders of the whole group?
+### What if there is network isolation in a RAFT cluster, resulting in a split group with two nodes (one from each split) that thinks they are leaders of the whole group?
 
 The RAFT protocol takes care of this so the that neither of the isolated leaders can progress to the higher level until they get a majority of the vote. This prevents two leaders presenting themselves to the higher levels and causing confusion.
 
-How do the nodes in the higher levels know who else is in their cluster?
+### How do the nodes in the higher levels know who else is in their cluster?
 
 For the level 1, all the nodes can simply look up the mixed index to see who is adjacent to them (This is the entire public key list AFTERitnhas been deterministically mixed over a finite field). They can calculate who should be in their list. But the higher levels need to know who are leaders from the lower levels. They do this by asking the group who their leader is and if that leader has a majority. If so, that node is elevated to the higher level and partakes in electer a leader at that level.
 
-Majority Rule
+### Majority Rule
 
 The majority rule is use to enusre a reliable merged vote in a RAFT cluster. As long as the majority of nodes agree, the with absolute certainty, the merged vote state will not be faulty, and it can tolerate splits in communication – this is a feature of the RAFT protocol.
 
-Byzantine Fault Tolerance (BFT)
+### Byzantine Fault Tolerance (BFT)
 
 This tolerance level assesses the system’s resilience to malicious actors, not just general faults, who may attempt to manipulate the result. It is distinct from the factors that determine the overall health of a Raft cluster.
 
