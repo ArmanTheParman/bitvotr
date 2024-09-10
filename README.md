@@ -152,39 +152,39 @@ The level 3 members coordinate, together with their leader, a data structure wit
 
 The Nostr-Tally has up to 2401 members and needs 1601 signatures to be approved.
 
-Time Period 6
+### Time Period 6
 
 The Nostr-Tally has up to 16807 members and needs 11205 signatures to be approved.
 
-Stage 3 - Voting Round 2
+## Stage 3 - Voting Round 2
 
-The dropped list - Time period 1 to 6
+### The dropped list - Time period 1 to 6
 
 The list can be extracted from any node as they are all in sync. They are all arranged in an apparently random but deterministic way like the first list. The pyramid structrue will be the same as before, and the same stages will happen as before. Any that drop again or don't show up are added to the final list - shared with all nodes.
 
 One important difference in this round is that if a pyramid reaches the size of 2401, then failure to merge into the final 16807 does not drop the entire group into the final list. Instead, the 7 approved clusters of 2401 remain as is, and attempt a merge in Voting round 3. This design is so that the opportunity to vote doesn't rapidly diminsh due to connection problems, while still maintaining a reasonable amount of anonymity.
 
-Stage 3 - Voting Round 3
+## Stage 3 - Voting Round 3
 
-The final list - Time period 1 to 6
+### The final list - Time period 1 to 6
 
 Like the dropped list in voting round 2, the tolerance for failure during this round is also reduced. This time, ANY successful merge is accepted, and clusters that fail to merge simply stop trying and reach their final form.
 
-Stage 3 - Voting Round 4
+## Stage 3 - Voting Round 4
 
 No merging is done in this phase. Any node that hasn't cast a vote should do so, and stay online. Their vote will have any privacy from the voting coordinator. Users can decline this and send in a standard vote outside of the BitVotr system.
 
-Stage 4 - Data Publication
+## Stage 4 - Data Publication
 
 Every node shall hash the tally it is holding and share the hash in a gossip protocol. All nodes generate a list of hashes representing the vote tallies, and add unique hashes to their list,  'voting hash list'.
 
 From this point on, the data is disseminated in 3 ways:
 
-Every node that wishes to verify has the voting hash list and can use it to connect to nodes and request data exchange.
+1) Every node that wishes to verify has the voting hash list and can use it to connect to nodes and request data exchange.
 
-The voting tally, WITH its hash in an appropriate field can be published to NOSTR and shared between NOSTR relays. Anyone can search for the hash and receive the tally. The signatures are also published as separate NOSTR events - they are the signatures of the tally data. The event has the hash of the tally, the pubkey they are signing for, and the signature data. Extra NOSTR relays during the election would assist dissemination.
+2) The voting tally, **WITH** its hash in an appropriate field can be published to NOSTR and shared between NOSTR relays. Anyone can search for the hash and receive the tally. The signatures are also published as separate NOSTR events - they are the signatures of the tally data. The event has the hash of the tally, the pubkey they are signing for, and the signature data. Extra NOSTR relays during the election would assist dissemination.
 
-Nodes can also share the merged tally and signatures over BitTorrent. BitVotr will prepare the files for sharing, prepare the torrent file, share to a tracker. Those who are verifying the election can then search for the hash and the tracker will direct them to the download.
+3) Nodes can also share the merged tally and signatures over BitTorrent. BitVotr will prepare the files for sharing, prepare the torrent file, share to a tracker. Those who are verifying the election can then search for the hash and the tracker will direct them to the download.
 
 By getting all the tallies the vote can be quickly counted, confirmation requires the downloading and verifying of all the signatures as well. It's up to the verifier to decide how many signatures they want to collect to confirm the tally,  in order to be satisfied the election was honest.
 
