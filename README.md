@@ -116,3 +116,95 @@ Peer to Peer connections over Tor are made in [RAFT-protocol clusters](#raftclus
 <p align="center">
 <em>Leaders, shaded, in clusters of level 1 become nodes in the level above and so on. Not all nodes shown, and not all levels shown.</em>
 </p>
+
+The system can handle people dropping out and reconnecting, and can handle low computing power. If the total pool of voters was 300 million, then there would be 17849.7 megaclusters. The incomplete cluster (0.7) can be managed by merging it deterministically and evenly with the others.
+
+As long as a cluster has 4 nodes out of 7 alive, the '[majority rule](#majority)', holds, and the cluster can remain active and connected to lower and higher RAFT levels. When nodes that disconnect and don't reappear in time, the remaining nodes flag their ID's, or the ID of their entire section if a section goes down, to a shared "dropped list" via a gossip protocol.
+
+Time Period 2
+
+At the beginning of this period, nodes will be linked to one of the megaclusters. It is possible that some nodes will not have participated at all, or are disconnected at this point in time for whatever reason. They will have until the end of time period 2 to join the megacluster. If they don't reconnect in time, they still have the opportunity to vote in the 'dropped round' or final round.
+
+During this time period, votes are exchanged and verified within the RAFT cluster of 7 (level 1 of the megacluster), then the leader nodes of the clusters merge the votes into a NOSTR data structre which is then signed as a whole by each member in the cluster.
+
+The merged signature is considered "approved" if it passes the Byzantine Fault Tolerance standard, which is more strict than the 'majority rule' which is applied to the connectioin status of the RAFT cluster.
+
+The leader of the cluster then programatically signals to each member that they can delete the individual votes (for enhanced privacy). Once done, the cluster signals their work for Period 2 is complete.
+
+Clusters that fails to reach completion status by the end of Period 2 (ie failed the Byzantine Fault Tolerance standard) are added to the 'dropped list' - that is, the entire cluster of 7 nodes no longer participates in the pyramid for the next time period.
+
+Time Period 3
+
+The leaders of each level 1 cluster (base of the megaclster pyramid) are members of the level 2 cluster "above" as well. One of the seven in level 2 becomes the leader and 6 others become followers (they still remain leaders of the level below of course, otherwise they drop down and get replaced). Note the leader of level 2 is also potentially a leader of levels above as well.
+
+The level 2 leader co-ordinates the merging of each of the 7's (self included) merged Nostr-Tally meged vote, and at the end of the round, they should all be holding a merged-vote of 49 votes, and at least 33 signatures from the lower levels. Thirty-three is the minimum required for Byzantine Fault Tolerance. If it is achieved, the group can progress to time Period 4. Otherwise, the entire group's 49 voters are added to the dropped list.
+
+Time Period 4
+
+During this period, the group sizes are 343 in total (7^3, or 7x7x7 = 343) if none have been dropped. 
+
+In level 3, a leader is in a group with 7 other members. Each of them are leaders in their respective level 2. And each of those are leaders in level 1.
+
+The level 3 members coordinate, together with their leader, a data structure with 343 votes in total. If 229 votes are collected by the end of Period 4, then the group has an approved merged Nostr-Tally and proceeds to the next Time period.
+
+Time Period 5
+
+The Nostr-Tally has up to 2401 members and needs 1601 signatures to be approved.
+
+Time Period 6
+
+The Nostr-Tally has up to 16807 members and needs 11205 signatures to be approved.
+
+Stage 3 - Voting Round 2
+
+The dropped list - Time period 1 to 6
+
+The list can be extracted from any node as they are all in sync. They are all arranged in an apparently random but deterministic way like the first list. The pyramid structrue will be the same as before, and the same stages will happen as before. Any that drop again or don't show up are added to the final list - shared with all nodes.
+
+One important difference in this round is that if a pyramid reaches the size of 2401, then failure to merge into the final 16807 does not drop the entire group into the final list. Instead, the 7 approved clusters of 2401 remain as is, and attempt a merge in Voting round 3. This design is so that the opportunity to vote doesn't rapidly diminsh due to connection problems, while still maintaining a reasonable amount of anonymity.
+
+Stage 3 - Voting Round 3
+
+The final list - Time period 1 to 6
+
+Like the dropped list in voting round 2, the tolerance for failure during this round is also reduced. This time, ANY successful merge is accepted, and clusters that fail to merge simply stop trying and reach their final form.
+
+Stage 3 - Voting Round 4
+
+No merging is done in this phase. Any node that hasn't cast a vote should do so, and stay online. Their vote will have any privacy from the voting coordinator. Users can decline this and send in a standard vote outside of the BitVotr system.
+
+Stage 4 - Data Publication
+
+Every node shall hash the tally it is holding and share the hash in a gossip protocol. All nodes generate a list of hashes representing the vote tallies, and add unique hashes to their list,  'voting hash list'.
+
+From this point on, the data is disseminated in 3 ways:
+
+Every node that wishes to verify has the voting hash list and can use it to connect to nodes and request data exchange.
+
+The voting tally, WITH its hash in an appropriate field can be published to NOSTR and shared between NOSTR relays. Anyone can search for the hash and receive the tally. The signatures are also published as separate NOSTR events - they are the signatures of the tally data. The event has the hash of the tally, the pubkey they are signing for, and the signature data. Extra NOSTR relays during the election would assist dissemination.
+
+Nodes can also share the merged tally and signatures over BitTorrent. BitVotr will prepare the files for sharing, prepare the torrent file, share to a tracker. Those who are verifying the election can then search for the hash and the tracker will direct them to the download.
+
+By getting all the tallies the vote can be quickly counted, confirmation requires the downloading and verifying of all the signatures as well. It's up to the verifier to decide how many signatures they want to collect to confirm the tally,  in order to be satisfied the election was honest.
+
+Appendix
+
+Why the name, BitVotr?
+
+The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. While no data is required to be published to the Bitcoin timechain, it is used as the election clock, and also to extract future sufficiently-random data (block hash) that all voters can unanimously agree on. Nostr is used in the publication phase of the election to widely disseminate signed votes for anyway to download and verify.
+
+How BitVotr borrows from Bitcoin and Tor private/public keys
+
+In Bitcoin, a BIP39 seed phrase is a protcolised way to encode a large random number into words, typically 12 or 24. The words are converted to ASCII bytes (these are integers), and then it goes through a series of steps including a hash to generate a 512 bit private key. 
+
+At this point in the chain of events, public/private key cryptography is possible. Before this, the system is just a protcol to get to the private key, and done for ease of human recording with minimal chance of error.
+
+Private keys are kept private and they produce public keys.
+
+Private keys sign digital data/messages, and produce digital signatures (large numbers). People with private keys can demonstrate to others, the verifiers, that "the private key of the public key I gave you, has produced this signature" - and the others can verify easily that it's true.
+
+In Bitcoin it gets really interesting partly because the public key is inside the message being signed.
+
+In BitVotr, the system of signing with private keys is used but the keys are slightly different. They are borrowed from the Tor network, not Bitcoin. Tor uses onion addresses, which are in fact public keys. While the keys are used for verification and encryption, they are also communication endpoints; ie secret IP addresses. When used in BitVotr, direct P2P communication with the public key owner is possible, and exchanging signatures directlybecause possible.
+
+To generate onion addresses, private keys are normally generated by the Tor program. BitVotr will bypass this and create it's own onion private keys, using a custom protocol incorporating BIP39. BIP39, with words, creates a 64 byte integer as the seed, before making keys. BitVotr will do the same but in the last step will generate a 32 byte integer (using HMAC-256 instead of HMAC-512), and from that integer, will generate the private key. The cryptography for v3 onion address
