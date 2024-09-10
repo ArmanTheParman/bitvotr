@@ -136,9 +136,9 @@ Clusters that fails to reach completion status by the end of Period 2 (ie failed
 
 ### Time Period 3
 
-The leaders of each level 1 cluster (base of the megaclster pyramid) are members of the level 2 cluster "above" as well. One of the seven in level 2 becomes the leader and 6 others become followers (they still remain leaders of the level below of course, otherwise they drop down and get replaced). Note the leader of level 2 is also potentially a leader of levels above as well.
+The leaders of each level 1 cluster (base of the megacluster pyramid) are members of the level 2 cluster "above" as well. One of the seven in level 2 becomes the leader and 6 others become followers (they still remain leaders of the level below of course, otherwise they drop down and get replaced). Note the leader of level 2 is also potentially a leader of levels above as well.
 
-The level 2 leader co-ordinates the merging of each of the 7's (self included) merged Nostr-Tally meged vote, and at the end of the round, they should all be holding a merged-vote of 49 votes, and at least 33 signatures from the lower levels. Thirty-three is the minimum required for Byzantine Fault Tolerance. If it is achieved, the group can progress to time Period 4. Otherwise, the entire group's 49 voters are added to the dropped list.
+The level 2 leader co-ordinates the merging of each of the 7's (self included) merged Nostr-Tally merged vote, and at the end of the round, they should all be holding a merged-vote of 49 votes, and at least 33 signatures from the lower levels. Thirty-three is the minimum required for Byzantine Fault Tolerance. If it is achieved, the group can progress to time Period 4. Otherwise, the entire group's 49 voters are added to the dropped list.
 
 ### Time Period 4
 
@@ -160,9 +160,9 @@ The Nostr-Tally has up to 16807 members and needs 11205 signatures to be approve
 
 ### The dropped list - Time period 1 to 6
 
-The list can be extracted from any node as they are all in sync. They are all arranged in an apparently random but deterministic way like the first list. The pyramid structrue will be the same as before, and the same stages will happen as before. Any that drop again or don't show up are added to the final list - shared with all nodes.
+The list can be extracted from any node as they are all in sync. They are all arranged in an apparently random but deterministic way like the first list. The pyramid structure will be the same as before, and the same stages will happen as before. Any that drop again or don't show up are added to the final list - shared with all nodes.
 
-One important difference in this round is that if a pyramid reaches the size of 2401, then failure to merge into the final 16807 does not drop the entire group into the final list. Instead, the 7 approved clusters of 2401 remain as is, and attempt a merge in Voting round 3. This design is so that the opportunity to vote doesn't rapidly diminsh due to connection problems, while still maintaining a reasonable amount of anonymity.
+One important difference in this round is that if a pyramid reaches the size of 2401, then failure to merge into the final 16807 does not drop the entire group into the final list. Instead, the 7 approved clusters of 2401 remain as is, and attempt a merge in Voting round 3. This design is so that the opportunity to vote doesn't rapidly diminish due to connection problems, while still maintaining a reasonable amount of anonymity.
 
 ## Stage 3 - Voting Round 3
 
@@ -238,11 +238,11 @@ The Pubkey List shall be organised in ascending numerical order, and indexed fro
 
 ### Prime Finite Field Math
 
-Using prime finite field math, the public keys’s indexs can effectively be randomised in a deterministic way as follows…
+Using prime finite field math, the public keys’ indexes can effectively be randomised in a deterministic way as follows…
 
-The largest index number that is a prime number is found (using code, and achieved in seconds). We shall call this number, “P”. This key and the ones above are set aside, leaving a P number of keys in the set (zero to P-1).
+The largest index number that is also a prime number is found (using code and achieved in seconds). We shall call this number, “P”. This key and the ones above are set aside, leaving a P number of keys in the set (zero to P-1).
 
-A special property of such a collection with a prime number of elements is that if you take ANY number and repeatedly add it ato ANY initial index number, and use %prime (modulo prime) arithmetic, then every other number will eventually be hit exactly once before the the value returns to the original. For example…
+A special property of such a collection with a prime number of elements is that if you take ANY number and ***repeatedly*** add it ato ANY initial index number, and use %prime (modulo prime) arithmetic, then every other number will eventually be hit exactly once before the value returns to the original. For example…
 
 Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We can take ANY number, lets say 10. With modulo 7 arithmetic, 10%7 is the same as 3. Now let’s repeatedly add 3 to any of the 7 elements, let’s arbitrarily start with 4.
 
@@ -268,43 +268,51 @@ With numbers in the millions, in a prime set, adding a hash (potentially up to 2
 
 With a large enough set and a large enough number added, the 0,3,6,2,5,1,4 type of result, with millions of values, will seem random and unpedictable in advance. Not being able to predict how the shuffle will occur is a result of using a FUTURE Bitcoin hash value.
 
-Mixed_index_of key = key_index + starting_Bitcoin_block_hash % prime_of_set
+***Mixed_index_of key = key_index + starting_Bitcoin_block_hash % prime_of_set***
 
 No one can know the future bitcoin block hash, so no one can know the future calculation that will be done in advance. Also, even though the Bitcoin hashes have about 19 leading zeros, the numbers are still incredibly large and sufficiently large for the purpose of mixing the set.
 
-Why merge the votes?
+### Why merge the votes?
 
 The weakest link in privacy is that the public key is known to the Voting Coordinator (VC). We can’t allow a situation where data centres can be infiltrated to track who voted for who. To solve the problem, individuals can randomly (and deterministically) share their vote with another person (anonymously, as they are known only is public keys) and their votes are merged and the tally verified between them. Then they merge their vote with other merged groups and the tally of votes gets bigger. As the merging continues the anonymity of the vote for each public key increases. All of this is directed at protecting privacy from the VC (individuals cannont determine who is behind any given public key unless it is voluntarily revealed).
 
 To determine the vote of a particular individual, the VC would have to interrogate other members during the initial merging stages (who pairs with who can be determined only after the election begins), and demand to retrieve deleted data from the computer. While theoretically possible, doing this at scale is practically impossible and an acceptable weakest link of the BitVotr system.
 
-Why RAFT Clusters?
+### Why RAFT Clusters?
 
 First, we must answer why have clusters? Then, why RAFT?
 
 If merging one to one, then too much dependence is placed on another individual being online for a vote to get merged and continue to merge with others. Having a group of seven is a balance between not relying on only one person, increasing initial merge privacy, and computing power (large clusters demand more power, and 7 is estimated to be reasonable for a Raspberry Pi 4).
 
-An individual can drop out and the remaining people in the group can continue on. But with 1 to 1 merges, any connection drop out automatically will cancel the voting ability of the connection parter. Clusters introduces resiliance to such drop outs.
+An individual can drop out and the remaining people in the group can continue on. But with 1 to 1 merges, any connection dropout automatically will cancel the voting ability of the connection partner. Clusters introduce resilience to such dropouts.
 
 Using the RAFT protocol, reliable agreement in the state of a changing document (the merged vote in the cluster) can be achieved.
 
-RAFT protocol clusters
+### RAFT protocol clusters
 
 Information about what the RAFT consensus protocol is and how it works can be learned directly from the creator in an excellent lecture he released on YouTube.
 
-To summarise, clusters of computers communicate initially on equal footing in a P2P network, and I’ll call each a “node”. Then following the protocol, a leader is chosen for the cluster (achieved by randomly-timed self-nomination, then verification by followers, and vote, and approval). The leader comminucates with the other “nodes” which become followers. The leader directs entries to be made in each of the follower’s logs (and its own) using a system of communication that allows for an agreed version of the log to exist.
+To summarise, clusters of computers communicate initially on equal footing in a P2P network, and I’ll call each a “node”. Then following the protocol, a leader is chosen for the cluster (achieved by randomly-timed self-nomination, then verification by followers, vote, and approval). The leader communicates with the other “nodes” which become followers. The leader directs entries to be made in each of the follower’s logs (and its own) using a system of communication that allows for an agreed version of the log to exist.
 
-The purpose of the RAFT design is to achieve consensus between nodes in a shared document state, while tolerating disconnections from the group, including the leader, splits in network communication, and having incorrect versions discarded – it is said to be “crash fault tolerant”.
+The purpose of the RAFT design is to achieve consensus between nodes in a shared document state, while tolerating disconnections from the group, including the leader, splits in network communication, and having incorrect versions discarded – it is said to be “crash fault-tolerant”.
 
 Malicious actors need to be considered also, but BitVotr uses a different system overlaid on top of the RAFT protocol to do that. This involves using Byzantine Fault Tolerance for VOTE/SIGNATURE approval, not for the health of the p2p network. This is discussed elsewhere.
 
-RAFT megaclusters
+### RAFT Megaclusters
 
-With millions of voters, their computers (all with variable compute power) will not be able to tolerate RAFT consensus communication. To overcome this problem, a Heirarchical RAFT system will be used. Clusters of 7 will elect a leader to join a higher order cluster. Every initial cluster shall eventually be part of a pyramid of 7x7x7x7x7 voters for a total of 16,807 voters in each pyramid. Their vote and siganature data should be uniformly agreed on, and becomes final – each member in the pyramid ends up with an identical copy.
+With millions of voters, their computers (all with variable computing power) will not be able to tolerate RAFT consensus communication. To overcome this problem, a Heirarchical RAFT system will be used. Clusters of 7 will elect a leader to join a higher-order cluster. Every initial cluster shall eventually be part of a pyramid of 7x7x7x7x7 voters for a total of 16,807 voters in each pyramid. Their vote and signature data should be uniformly agreed on, and become final – each member in the pyramid ends up with an identical copy.
 
 Leaders, shaded, in clusters of level 1 become nodes in the level above and so on. Not all nodes shown, and not all levels shown.
 
-Why are clusters in goups of 7?
+<p align="center">
+<img src="https://github.com/ArmanTheParman/bitvotr_protocol/blob/c91ded00458ac95111f7e65151e9d02087cd2a40/RAFT_levles.png" alt="RAFT cluster levels schema" width="50%;"/>
+</p>
+<p align="center">
+<em>Leaders, shaded, in clusters of level 1 become nodes in the level above and so on. Not all nodes shown, and not all levels shown.</em>
+</p>
+<br>
+
+### Why are clusters in goups of 7?
 
 Keeping cluster size small reduces the burden on weaker computers. But increasing the number increases the tolerance to faults. with a goup of 4, 5 or 6, only 1 fault can be tolerated, and 2 would cause a failure according to Byzantine Fault Tolerance rules. Having 7, 8, or 9 can tolerate 2 faults but not three. Without any known evidence, 7 was thought to be a good balance, but this can be changed depending on how such a system performs in the real world and pilots.
 
