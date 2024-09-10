@@ -274,7 +274,7 @@ No one can know the future bitcoin block hash, so no one can know the future cal
 
 ### Why merge the votes?
 
-The weakest link in privacy is that the public key is known to the Voting Coordinator (VC). We can’t allow a situation where data centres can be infiltrated to track who voted for who. To solve the problem, individuals can randomly (and deterministically) share their vote with another person (anonymously, as they are known only is public keys) and their votes are merged and the tally verified between them. Then they merge their vote with other merged groups and the tally of votes gets bigger. As the merging continues the anonymity of the vote for each public key increases. All of this is directed at protecting privacy from the VC (individuals cannont determine who is behind any given public key unless it is voluntarily revealed).
+The weakest link in privacy is that the public key is known to the Voting Coordinator (VC). We can’t allow a situation where data centres can be infiltrated to track who voted for who. To solve the problem, individuals can randomly (and deterministically) share their vote with another person (anonymously, as they are known only is public keys) and their votes are merged and the tally verified between them. Then they merge their vote with other merged groups and the tally of votes gets bigger. As the merging continues the anonymity of the vote for each public key increases. All of this is directed at protecting privacy from the VC (individuals cannot determine who is behind any given public key unless it is voluntarily revealed).
 
 To determine the vote of a particular individual, the VC would have to interrogate other members during the initial merging stages (who pairs with who can be determined only after the election begins), and demand to retrieve deleted data from the computer. While theoretically possible, doing this at scale is practically impossible and an acceptable weakest link of the BitVotr system.
 
@@ -312,37 +312,49 @@ Leaders, shaded, in clusters of level 1 become nodes in the level above and so o
 </p>
 <br>
 
-### Why are clusters in goups of 7?
+### Why are clusters in groups of 7?
 
-Keeping cluster size small reduces the burden on weaker computers. But increasing the number increases the tolerance to faults. with a goup of 4, 5 or 6, only 1 fault can be tolerated, and 2 would cause a failure according to Byzantine Fault Tolerance rules. Having 7, 8, or 9 can tolerate 2 faults but not three. Without any known evidence, 7 was thought to be a good balance, but this can be changed depending on how such a system performs in the real world and pilots.
+Keeping cluster size small reduces the burden on weaker computers. But increasing the number increases the tolerance to faults. with a group of 4, 5 or 6, only 1 fault can be tolerated, and 2 would cause a failure according to Byzantine Fault Tolerance rules. Having 7, 8, or 9 can tolerate 2 faults but not three. Without any known evidence, 7 was thought to be a good balance, but this can be changed depending on how such a system performs in the real world and pilots.
 
 ### What if a RAFT group fails 'majority rule' and cannot maintain a connection to the levels above?
 
-If this happens, there may be time for the group to regain connection. It depends if that segment contributed to the merged tally that all the other leaders have approved. At that point, a disconnection would mean signatures from that segment can not reach the higher level, impacting on the number of signtures collected, and risking a Byzantin Fault.
+If this happens, there may be time for the group to regain connection. It depends if that segment contributed to the merged tally that all the other leaders have approved. At that point, a disconnection would mean signatures from that segment can not reach the higher level, impacting the number of signatures collected, and risking a Byzantine Fault.
 
-But if the disconnection from the group happens before the merged tally, then after some timeout, the group will create a tally excluding that disconnected segment, and work towards achieving sufficient signatures on a smaller tally. If the lost segment reconnects, the group shall continue to finish its work on the smaller tally, and only after it has completed the task, it would start over and and work on the larger merge. If they finish in time before the period is over, the larger merge shall count and the smaller one is discarded. If they don't finish the larger merge in time, the original connected nodes will push on with the smaller merge, and the disconnected segment is added to the drop list. In this way, the orginal nodes are not disadvantaged by a disconnection and slow reconnection.
+But if the disconnection from the group happens before the merged tally, then after some timeout, the group will create a tally excluding that disconnected segment, and work towards achieving sufficient signatures on a smaller tally. If the lost segment reconnects, the group shall continue to finish its work on the smaller tally, and only after it has completed the task, it would start over and and work on the larger merge. If they finish in time before the period is over, the larger merge shall count and the smaller one is discarded. If they don't finish the larger merge in time, the original connected nodes will push on with the smaller merge, and the disconnected segment will be added to the drop list. In this way, the original nodes are not disadvantaged by a disconnection and slow reconnection.
 
-### What if there is network isolation in a RAFT cluster, resulting in a split group with two nodes (one from each split) that thinks they are leaders of the whole group?
+### What if there is network isolation in a RAFT cluster, resulting in a split group with two nodes (one from each split) that think they are leaders of the whole group?
 
-The RAFT protocol takes care of this so the that neither of the isolated leaders can progress to the higher level until they get a majority of the vote. This prevents two leaders presenting themselves to the higher levels and causing confusion.
+The RAFT protocol takes care of this so that neither of the isolated leaders can progress to the higher level until they get a majority of the vote. This prevents two leaders from presenting themselves to the higher levels and causing confusion.
 
 ### How do the nodes in the higher levels know who else is in their cluster?
 
-For the level 1, all the nodes can simply look up the mixed index to see who is adjacent to them (This is the entire public key list AFTERitnhas been deterministically mixed over a finite field). They can calculate who should be in their list. But the higher levels need to know who are leaders from the lower levels. They do this by asking the group who their leader is and if that leader has a majority. If so, that node is elevated to the higher level and partakes in electer a leader at that level.
+For the level 1, all the nodes can simply look up the mixed index to see who is adjacent to them (This is the entire public key list AFTER it has been deterministically mixed over a finite field). They can calculate who should be on their list. But the higher levels need to know who are leaders from the lower levels. They do this by asking the group who their leader is and if that leader has a majority. If so, that node is elevated to the higher level and partakes in electing a leader at that level.
 
 ### Majority Rule
 
-The majority rule is use to enusre a reliable merged vote in a RAFT cluster. As long as the majority of nodes agree, the with absolute certainty, the merged vote state will not be faulty, and it can tolerate splits in communication – this is a feature of the RAFT protocol.
+The majority rule is used to ensure a reliable merged vote in a RAFT cluster. As long as the majority of nodes agree, with absolute certainty, the merged vote state will not be faulty, and it can tolerate splits in communication – this is a feature of the RAFT protocol.
 
 ### Byzantine Fault Tolerance (BFT)
 
 This tolerance level assesses the system’s resilience to malicious actors, not just general faults, who may attempt to manipulate the result. It is distinct from the factors that determine the overall health of a Raft cluster.
 
-For a merged vote to proceed and merge with others, both the RAFT cluster needs to be healthy, and BFT conditions must be satisfied.
+For a merged vote to proceed and merge with others, both the RAFT cluster must be healthy, and BFT conditions must be satisfied.
 
-The minimum according to this standard depends on the size of the group. For a group of seven, the minimum is is 5. The calculation is:
+The minimum according to this standard depends on the size of the group. For a group of seven, the minimum is 5. The calculation is:
+
+
+<p align="center">
+<img src="https://github.com/ArmanTheParman/bitvotr_protocol/blob/39476814ec7f06669a0e4858f1809eab6135db13/images/Eq3.png" alt="Equation 3" width="20%;"/>
+</p>
+<br>
 
 Where n being 7, f can be calculated as 2, the number of tolerable faults.
+
+<p align="center">
+<img src="https://github.com/ArmanTheParman/bitvotr_protocol/blob/39476814ec7f06669a0e4858f1809eab6135db13/images/Eq4.png" alt="Equation 4" width="20%;"/>
+</p>
+<br>
+
 
 What if a group fails Byzantine Falt Tolerance and exits the merging cascade, does it reduce the chance of the remaining groups to achieve approved merges?
 
