@@ -116,30 +116,31 @@ Peer to Peer connections over Tor are made in [RAFT-protocol clusters](#raftclus
 <p align="center">
 <em>Leaders, shaded, in clusters of level 1 become nodes in the level above and so on. Not all nodes shown, and not all levels shown.</em>
 </p>
+<br>
 
 The system can handle people dropping out and reconnecting, and can handle low computing power. If the total pool of voters was 300 million, then there would be 17849.7 megaclusters. The incomplete cluster (0.7) can be managed by merging it deterministically and evenly with the others.
 
-As long as a cluster has 4 nodes out of 7 alive, the '[majority rule](#majority)', holds, and the cluster can remain active and connected to lower and higher RAFT levels. When nodes that disconnect and don't reappear in time, the remaining nodes flag their ID's, or the ID of their entire section if a section goes down, to a shared "dropped list" via a gossip protocol.
+As long as a cluster has 4 nodes out of 7 alive, the '[majority rule](#majority)', holds, and the cluster can remain active and connected to lower and higher RAFT levels. When nodes that disconnect and don't reappear in time, the remaining nodes flag their ID's, or the ID of their entire section if a section goes down, to a shared "[dropped list](#droppedlist)" via a gossip protocol.
 
-Time Period 2
+### Time Period 2
 
-At the beginning of this period, nodes will be linked to one of the megaclusters. It is possible that some nodes will not have participated at all, or are disconnected at this point in time for whatever reason. They will have until the end of time period 2 to join the megacluster. If they don't reconnect in time, they still have the opportunity to vote in the 'dropped round' or final round.
+At the beginning of this period, nodes will be linked to one of the megaclusters. It is possible that some nodes will not have participated at all, or are disconnected at this point in time for whatever reason. They will have until the end of time period 2 to join the megacluster. If they don't reconnect in time, they still have the opportunity to vote in the '[dropped round](#droppedround)' or final round.
 
-During this time period, votes are exchanged and verified within the RAFT cluster of 7 (level 1 of the megacluster), then the leader nodes of the clusters merge the votes into a NOSTR data structre which is then signed as a whole by each member in the cluster.
+During this time period, votes are exchanged and verified within the RAFT cluster of 7 (level 1 of the megacluster), then the leader nodes of the clusters merge the votes into a [NOSTR data structure](#mergednostr) which is then signed as a whole by each member in the cluster.
 
-The merged signature is considered "approved" if it passes the Byzantine Fault Tolerance standard, which is more strict than the 'majority rule' which is applied to the connectioin status of the RAFT cluster.
+**The merged signature is considered "approved" if it passes the [Byzantine Fault Tolerance](#byzantine) standard, which is more strict than the 'majority rule' which is applied to the connectioin status of the RAFT cluster.**
 
 The leader of the cluster then programatically signals to each member that they can delete the individual votes (for enhanced privacy). Once done, the cluster signals their work for Period 2 is complete.
 
 Clusters that fails to reach completion status by the end of Period 2 (ie failed the Byzantine Fault Tolerance standard) are added to the 'dropped list' - that is, the entire cluster of 7 nodes no longer participates in the pyramid for the next time period.
 
-Time Period 3
+### Time Period 3
 
 The leaders of each level 1 cluster (base of the megaclster pyramid) are members of the level 2 cluster "above" as well. One of the seven in level 2 becomes the leader and 6 others become followers (they still remain leaders of the level below of course, otherwise they drop down and get replaced). Note the leader of level 2 is also potentially a leader of levels above as well.
 
 The level 2 leader co-ordinates the merging of each of the 7's (self included) merged Nostr-Tally meged vote, and at the end of the round, they should all be holding a merged-vote of 49 votes, and at least 33 signatures from the lower levels. Thirty-three is the minimum required for Byzantine Fault Tolerance. If it is achieved, the group can progress to time Period 4. Otherwise, the entire group's 49 voters are added to the dropped list.
 
-Time Period 4
+### Time Period 4
 
 During this period, the group sizes are 343 in total (7^3, or 7x7x7 = 343) if none have been dropped. 
 
@@ -147,7 +148,7 @@ In level 3, a leader is in a group with 7 other members. Each of them are leader
 
 The level 3 members coordinate, together with their leader, a data structure with 343 votes in total. If 229 votes are collected by the end of Period 4, then the group has an approved merged Nostr-Tally and proceeds to the next Time period.
 
-Time Period 5
+### Time Period 5
 
 The Nostr-Tally has up to 2401 members and needs 1601 signatures to be approved.
 
