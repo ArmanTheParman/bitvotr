@@ -172,7 +172,7 @@ Like the dropped list in voting round 2, the tolerance for failure during this r
 
 ## Stage 3 - Voting Round 4
 
-No merging is done in this phase. Any node that hasn't cast a vote should do so, and stay online. Their vote will have any privacy from the voting coordinator. Users can decline this and send in a standard vote outside of the BitVotr system.
+No merging is done in this phase. Any node that hasn't cast a vote should do so, and stay online. Their vote will have no privacy from the voting coordinator. Users can decline this and send in a standard vote outside of the BitVotr system.
 
 ## Stage 4 - Data Publication
 
@@ -184,21 +184,21 @@ From this point on, the data is disseminated in 3 ways:
 
 2) The voting tally, **WITH** its hash in an appropriate field can be published to NOSTR and shared between NOSTR relays. Anyone can search for the hash and receive the tally. The signatures are also published as separate NOSTR events - they are the signatures of the tally data. The event has the hash of the tally, the pubkey they are signing for, and the signature data. Extra NOSTR relays during the election would assist dissemination.
 
-3) Nodes can also share the merged tally and signatures over BitTorrent. BitVotr will prepare the files for sharing, prepare the torrent file, share to a tracker. Those who are verifying the election can then search for the hash and the tracker will direct them to the download.
+3) Nodes can also share the merged tally and signatures over BitTorrent. BitVotr will prepare the files for sharing, prepare the torrent file, and share to a tracker. Those who are verifying the election can then search for the hash and the tracker will direct them to the download.
 
-By getting all the tallies the vote can be quickly counted, confirmation requires the downloading and verifying of all the signatures as well. It's up to the verifier to decide how many signatures they want to collect to confirm the tally,  in order to be satisfied the election was honest.
+By getting all the tallies the vote can be quickly counted, and confirmation requires the downloading and verifying of all the signatures as well. It's up to the verifier to decide how many signatures they want to collect to confirm the tally,  in order to be satisfied the election was honest.
 
-Appendix
+## Appendix
 
-Why the name, BitVotr?
+### Why the name, BitVotr?
 
 The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. While no data is required to be published to the Bitcoin timechain, it is used as the election clock, and also to extract future sufficiently-random data (block hash) that all voters can unanimously agree on. Nostr is used in the publication phase of the election to widely disseminate signed votes for anyway to download and verify.
 
-How BitVotr borrows from Bitcoin and Tor private/public keys
+### How BitVotr borrows from Bitcoin and Tor private/public keys
 
-In Bitcoin, a BIP39 seed phrase is a protcolised way to encode a large random number into words, typically 12 or 24. The words are converted to ASCII bytes (these are integers), and then it goes through a series of steps including a hash to generate a 512 bit private key. 
+In Bitcoin, a BIP39 seed phrase is a protcolised way to encode a large random number into words, typically 12 or 24. The words are converted to ASCII bytes (these are integers), and then it goes through a series of steps including a hash to generate a 512-bit private key. 
 
-At this point in the chain of events, public/private key cryptography is possible. Before this, the system is just a protcol to get to the private key, and done for ease of human recording with minimal chance of error.
+At this point in the chain of events, public/private key cryptography is possible. Before this, the system is just a protocol to get to the private key, and done for ease of human recording with minimal chance of error.
 
 Private keys are kept private and they produce public keys.
 
@@ -206,6 +206,6 @@ Private keys sign digital data/messages, and produce digital signatures (large n
 
 In Bitcoin it gets really interesting partly because the public key is inside the message being signed.
 
-In BitVotr, the system of signing with private keys is used but the keys are slightly different. They are borrowed from the Tor network, not Bitcoin. Tor uses onion addresses, which are in fact public keys. While the keys are used for verification and encryption, they are also communication endpoints; ie secret IP addresses. When used in BitVotr, direct P2P communication with the public key owner is possible, and exchanging signatures directlybecause possible.
+In BitVotr, the system of signing with private keys is used but the keys are slightly different. They are borrowed from the Tor network, not Bitcoin. Tor uses onion addresses, which are in fact public keys. While the keys are used for verification and encryption, they are also communication endpoints; ie secret IP addresses. When used in BitVotr, direct P2P communication with the public key owner is possible, and exchanging signatures directly becomes possible.
 
-To generate onion addresses, private keys are normally generated by the Tor program. BitVotr will bypass this and create it's own onion private keys, using a custom protocol incorporating BIP39. BIP39, with words, creates a 64 byte integer as the seed, before making keys. BitVotr will do the same but in the last step will generate a 32 byte integer (using HMAC-256 instead of HMAC-512), and from that integer, will generate the private key. The cryptography for v3 onion address
+To generate onion addresses, private keys are normally generated by the Tor program. BitVotr will bypass this and create it's own onion private keys, using a custom protocol incorporating BIP39. BIP39, with words, creates a 64 byte integer as the seed, before making keys. BitVotr will do the same but in the last step will generate a 32 byte integer (using HMAC-256 instead of HMAC-512), and from that integer, will generate the private key. The cryptography for v3 onion addresses is based on Ed25519, which uses the twisted Edwards curve defined over the finite field with the prime:
