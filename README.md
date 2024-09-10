@@ -245,10 +245,7 @@ The largest index number that is also a prime number is found (using code and ac
 A special property of such a collection with a prime number of elements is that if you take ANY number and ***repeatedly*** add it ato ANY initial index number, and use %prime (modulo prime) arithmetic, then every other number will eventually be hit exactly once before the value returns to the original. For example…
 
 Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We can take ANY number, let's say 10. With modulo 7 arithmetic, 10%7 is the same as 3. Now let’s repeatedly add 3 to any of the 7 elements, let’s arbitrarily start with 4.
-<p align="center">
-4+3%7=0
-
-0+3%7=3
+<p align="center"> 4+3%7=0 <br> 0+3%7=3 <br> </p>
 
 3+3%7=6
 
@@ -259,7 +256,7 @@ Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We
 5+3%7=1
 
 1+3%7=4
-</p>
+
 Note that we used modulo twice to go from 10 to 3 and then used it again in the equation – that doesn’t matter. We could easily have added 10 to each number and used modulo later. As long as it is done just before getting to the answer, it doesnt matter. You can even apply it to every number and it won’t make a difference.
 
 In the above example, we started with 4, got to 0, 3, 6, 2, 5, 1, and then back to 4. Every other number was “hit” on the way back to 4.
