@@ -104,8 +104,8 @@ Time periods are counted in Bitcoin blocks for easy agreement of time, and no ne
 
 The election begins at the pre-specified Bitcoin Block height, which marks the beginning of time period 1. This period lasts an arbitrary number of blocks based on network factors, yet to be determined.
 
-The BitVotr app extracts the Bitcoin block and obtains its hash. The hash is then used to deterministically mix the order of the PubKey list (using prime finte fields).
+The BitVotr app extracts the Bitcoin block and obtains its hash. The hash is then used to deterministically mix the order of the PubKey list ([using prime finite fields](#mixingkeys)).
 
-Peer to Peer connections over Tor are made in RAFT-protocol clusters of 7 (See why RAFT clusters?). The voters’ public keys are also their onion address for the Tor network.
+Peer to Peer connections over Tor are made in [RAFT-protocol clusters](#raftclusters) of seven (See [why RAFT clusters](#whyraft)?). The voters’ public keys are also their [onion address for the Tor network](#onionkeys).
 
-Megaclusters of 16,807 nodes are formed (takes seconds), and maintain communication via levels of heirarchical RAFT protocol clusters explained later.
+[Megaclusters](#megaclusters) of 16,807 nodes are formed (takes seconds), and maintain communication via levels of hierarchical RAFT protocol clusters explained later.
