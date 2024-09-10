@@ -343,30 +343,29 @@ Where n being 7, f can be calculated as 2, the number of tolerable faults.
 </p>
 <br>
 
-
-What if a group fails Byzantine Falt Tolerance and exits the merging cascade, does it reduce the chance of the remaining groups to achieve approved merges?
+### What if a group fails Byzantine Falt Tolerance and exits the merging cascade, does it reduce the chance of the remaining groups to achieve approved merges?
 
 Not really, because the mising group does not count towards the fault tolerance level. Eg, in a level 3 group that would normally have 343 signatories, if one of the level 2 groups were missing from the previous round, then only 294 votes are being merged. The tolerance level then changes to 197 instead of the original 229. This change is based on the BFT formula.
 
-The Dropped List
+### The Dropped List
 
 The dropped list is known to all nodes and is not to be deleted. Similar to how Bitcoin Nodes maintain a mempool of transactions and propagate the contents to other nodes via a gossip protocol, the dropped list is maintained by all nodes and should be identical.
 
 It is used to gived those with connection issues an opportunity to participate in subseqent rounds, and calculate the connection patters in a random but deterministic way. Deterministic is essential, to allow all nodes to independently come to the same conclusion about which node connects to which, and in not way can it be predicted in adance (protects privacy by making it difficult to prepare to snoop).
 
-The Dropped Round
+### The Dropped Round
 
 If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allow – voters can still use the BitVotr app to cast a NOSTR vote. If a vote in the BitVotr talley is found, then no other vote from that public key is considered valid.
 
-Explaining onion keys
+### Explaining Onion Keys
 
 Onion addresses are a form of public keys and are derivd from private keys. The cryptography is based on the elliptic curve, “Curve25519”. Onion addresses are used like IP address, but they can also be used in all the other ways public/private key cryptography can, including signing and verifying messages.
 
-On Privacy
+### On Privacy
 
 Level 1 is weakest link in privacy – each node knows the other’s vote with certainty, but does not know who they are. With subsequent merges, the list of voters and the tally grows, and so does the obscurity of which key voted for who. Eventually all groups will be merged and tallied. As the nodes merge their data, previous data is dropped and deleted to protect privacy; this removes the risk of subsequent interrogation of individuals for inital connection data.
 
-Examples of merging votes
+### Examples of merging votes
 
 The life of a signature is as follows:
 
@@ -374,7 +373,7 @@ Initially, a voter finds themselves in a cluster of 7 others. They share their v
 
 The leader merges the 7 signatures, signs, and shares all the documents with all the followers.
 
-Each member sees the votes of the others, and can verify the tally.
+Each member sees the votes of the others and can verify the tally.
 
 The tally accumulates 7 signatures.
 
@@ -382,21 +381,21 @@ The leader of the cluster is connected to 6 other leaders that form a level 2 cl
 
 In the same way as the level 1 merge, each of the level 2 followers shares their merged signature list with the level 2 leader, and a larger merge is formed. The other level 2 nodes do not see the individual signature of the other 6 nodes, only the merged version. In this way, the privacy of individuals increases as the vote tally progresses up the levels.
 
-Importantly, every document seen by level 2 members is shared to their level 1 followers, so there is no trusting of the count to anyone.
+Importantly, every document seen by level 2 members is shared with their level 1 followers, so there is no trust of the count to anyone.
 
 When level 1 followers are satisfied, the level 1 leader can approve the larger merge in level 2.
 
-This proces continues up to the tip of the pyramid.
+This process continues up to the tip of the pyramid.
 
-Verification during merges
+### Verification during merges
 
 When merging, these are the conditions that need to be met:
 
-Each node signs the merged data and shares their signature
+- Each node signs the merged data and shares its signature
 
-Signatures are added to the merged event. If all signatures are valid, then the total is hashed for identification, and shared to levels above.
+- Signatures are added to the merged event. If all signatures are valid, then the total is hashed for identification, and shared to levels above.
 
-Managing dropped connections
+### Managing dropped connections
 
 When a node within a cluster disconnects, if it is a leader, the absence will be noticed and a new leader gets elected following the RAFT protocol.
 
@@ -404,45 +403,45 @@ If it is a follower, the cluster continues on, as long as there is a majority of
 
 Reconnections can be accepted, the merge being repeated with more votes included.
 
-Should a merge be completed, and then a node disconnects, then they are unable to contribute to the signing of the merged document or any subsequent signatures of higher level merges. This counts towards Byzantine Fault Tolerance, and if the threahold is not met, the merged document fails and all members get added to the dropped list for a repeated attempt later.
+Should a merge be completed, and then a node disconnects, then they are unable to contribute to the signing of the merged document or any subsequent signatures of higher-level merges. This counts towards Byzantine Fault Tolerance, and if the threshold is not met, the merged document fails and all members get added to the dropped list for a repeated attempt later.
 
 The failed merge does not necessarily condemn the entire pyramid, but just the section that fails the tolerance threshold.
 
-What if there are various size megacluster-pyramids at the end?
+### What if there are various size megacluster-pyramids at the end?
 
 This won't be a problem for the election validity; only some impact on privacy. The largest pyramids will be the most private and the smallest will have somewhat less privacy.
 
-Managing rouge nodes
+### Managing rouge nodes
 
 A rogue node might provide invalid signatures – it will be rejected. As long as there are sufficient honest nodes providing signatures, the merging of votes can continue without the rogue node’s vote.
 
-Repeated connections amd disconnections is managed by making sure the remaining nodes complete their merge before attempting a larger merge that includes the rogue node.
+Repeated connections and disconnections are managed by making sure the remaining nodes complete their merge before attempting a larger merge that includes the rogue node.
 
-Tor network and load
+### Tor network and load
 
 With a large election, it could be that the Tor network becomes overwhelmed.
 
-Individuals can be encouraged to temporarily run a Tor middle relay to contribute Tor bandwidths.
+Individuals can be encouraged to temporarily run a Tor middle relay to contribute to Tor bandwidths.
 
 Depending on pilot tests, time periods can be titrated (lengthened or shortened) for expected Tor network performance.
 
-How can it work in practice?
+### How can it work in practice?
 
 BitVotr is not something easy to implement logistically, particularly with a population not ready for such technology. It will require a transition period and testing, but in the future, using such technology will be second nature for most of the population.
 
-BitVotr will require the willing participation by the Government and existing Electoral Commission. It might need to be widely demanded for this to be implemented, or a highly successful pilot might be needed.
+BitVotr will require the willing participation of the government and the existing Electoral Commission. It might need to be widely demanded for this to be implemented, or a highly successful pilot might be needed.
 
-Elimintating the central coordintator (Future potential implementation)
+### Eliminating the central coordinator (Future potential implementation)
 
-This involves a mature system of decentralised encrypted digital IDs, and the use of zero knowledge proofs. It allows an election to be organised in a decentralised way, being promoted by anyone who can gather the momentum. Despite keeping votes private, the system can ensure no more than 1 vote is possible per person, while maintaining privacy. It also avoids the need for a “web of trust” which initially sounds nice in theory, but hurts privacy as it links publicly the people you may know or associate with.
+This involves a mature system of decentralised encrypted digital IDs, and the use of zero-knowledge proofs. It allows an election to be organised in a decentralised way, being promoted by anyone who can gather the momentum. Despite keeping votes private, the system can ensure no more than 1 vote is possible per person, while maintaining privacy. It also avoids the need for a “web of trust” which initially sounds nice in theory, but hurts privacy as it links publicly the people you may know or associate with.
 
 An encrypted digital ID (eDID) is a document anyone can generate and then encrypt with their private key and publish openly. No one can read it unless approved by the individual, and logical statements can be proved with the data inside without actually revealing the data.
 
-For example, picture a name in plain text at the header of a document; below that, the encrypted section can conatin any information the individual wants to be able to prove about themselves. For the purpose of BitVotr, they’d need an onion address (they should keep the private key to the onion address safe), a large random secret number (for generating more deterministic keys as needed) and one or more official government ID documents in digital format with text fields about the contents.
+For example, picture a name in plain text at the header of a document; below that, the encrypted section can contain any information the individual wants to be able to prove about themselves. For the purpose of BitVotr, they’d need an onion address (they should keep the private key to the onion address safe), a large random secret number (for generating more deterministic keys as needed) and one or more official government ID documents in digital format with text fields about the contents.
 
-When they add say a Driver Licence, the issuer can confirm using a ZK proof that the user has updated the digital ID. The issuer can then sign a message that might read, “I approve digital ID with hash: —– contains a valid driver licence”. The voter can then store the newer version of the ID and the signature of the issuer and their public key in a log file/database associated with the ID. All of that can be encrypted and published to servers like NOSTR for retreival when neeed.
+When they add say a Driver Licence, the issuer can confirm using a ZK proof that the user has updated the digital ID. The issuer can then sign a message that might read, “I approve digital ID with hash: —– contains a valid Driver Licence”. The voter can then store the newer version of the ID and the signature of the issuer and their public key in a log file/database associated with the ID. All of that can be encrypted and published to servers like NOSTR for retrieval when needed.
 
-For removing the need for an electoral coordinator, the announcement/advertisement of any proposed election should come with several onion addresses for spawning the P2P network. It should also come with the block heigh times for the election conditions. At the specified block time, users can connect to the initial seed onion nodes and submit the encrypted digital ID with a zero knowledge proof to prove their connecting-onion-address is included in the ID provided. Their name does not need to be divulged, only that their ID is valid and they have an onion address. In this way, a voter is proving their identity, and their onion address, making sure that they are eligible to vote, and cannot vote twice (as only one onion is possible in a digital ID).
+To remove the need for an electoral coordinator, the announcement/advertisement of any proposed election should come with several onion addresses for spawning the P2P network. It should also come with the block height times for the election conditions. At the specified block time, users can connect to the initial seed onion nodes and submit the encrypted digital ID with a zero-knowledge proof to prove their connecting-onion-address is included in the ID provided. Their name does not need to be divulged, only that their ID is valid and they have an onion address. In this way, a voter is proving their identity, and their onion address, making sure that they are eligible to vote, and cannot vote twice (as only one onion is possible in a digital ID).
 
 At this point a system is needed to organise nodes as they get approved and vetted by a threshold of random nodes.
 
