@@ -110,7 +110,8 @@ Peer to Peer connections over Tor are made in [RAFT-protocol clusters](#raftclus
 
 [Megaclusters](#megaclusters) of 16,807 nodes are formed (takes seconds), and maintain communication via levels of hierarchical RAFT protocol clusters explained later.
 
-![RAFT cluster levels schema](https://github.com/ArmanTheParman/bitvotr_protocol/blob/c91ded00458ac95111f7e65151e9d02087cd2a40/RAFT_levles.png)
+<img src="[path/to/image.png](https://github.com/ArmanTheParman/bitvotr_protocol/blob/c91ded00458ac95111f7e65151e9d02087cd2a40/RAFT_levles.png)" alt="RAFT cluster levels schema" width="300"/>
+
 <p align="center">
   <em>Leaders, shaded, in clusters of level 1 become nodes in the level above and so on. Not all nodes shown, and not all levels shown.</em>
 </p>
