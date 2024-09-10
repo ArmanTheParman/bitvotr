@@ -278,7 +278,7 @@ Using the RAFT protocol, reliable agreement in the state of a changing document 
 
 ### RAFT protocol clusters
 
-Information about what the RAFT consensus protocol is and how it works can be learned directly from the creator in an excellent lecture he released on YouTube.
+Information about what the RAFT consensus protocol is and how it works can be learned directly from the creator in an excellent lecture he released on [YouTube](#https://www.youtube.com/watch?v=YbZ3zDzDnrw).
 
 To summarise, clusters of computers communicate initially on equal footing in a P2P network, and I’ll call each a “node”. Then following the protocol, a leader is chosen for the cluster (achieved by randomly-timed self-nomination, then verification by followers, vote, and approval). The leader communicates with the other “nodes” which become followers. The leader directs entries to be made in each of the follower’s logs (and its own) using a system of communication that allows for an agreed version of the log to exist.
 
