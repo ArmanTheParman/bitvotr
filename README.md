@@ -45,7 +45,7 @@ Windows, Mac, or Linux computer, or access to a trusted person’s computer. Com
 
 Minimum computing power equivalent – a Raspberry Pi 4
 
-Minimum drive storage required 50 GB (initial estimate) – external USD hard drive possible. Smaller storage is acceptable if the voter does not wish to verify the total count themselves.
+Minimum drive storage required 50 GB (initial estimate) – external USB hard drive possible. Smaller storage is acceptable if the voter does not wish to verify the total count themselves.
 
 Broadband internet connection with access to the Tor network
 
