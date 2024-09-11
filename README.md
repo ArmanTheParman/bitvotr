@@ -2,7 +2,7 @@
 
 ## What is BitVotr?
 
-***PROBLEM***: How can votes in an election be counted in a provably honest way (provable by anyone) without revealing the votes of individuals publicly, or from the government?
+***PROBLEM***: How can votes in an election be counted in a provably honest way (provable by anyone) without revealing the votes of individuals publicly, or to the government?
 
 ***SOLUTION***: BitVotr is a P2P computer protocol that can be used by democracies to run elections that result in a provably honest count. Voters can vote from the privacy and comfort of their homes with their computer, and can verify the total count is correct and their own vote has been counted.
 
