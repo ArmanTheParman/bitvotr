@@ -96,6 +96,18 @@ Prior to the election, all voters should access their BitVotr app and run the pr
 
 5) BitVotr will create a Tor hidden service using the private key, which results in the onion address server endpoint.
 
+## Stage 3 - Overview 
+
+The purpose of stage three is to accumulate the individual votes and merge them together, in order to obfuscate which key voted for which candidate. This is similar in concept to Bitcoin mixing transactions.
+
+Vote merging begins with small groups, which subsequently merge with other similar groups until very large groups are formed, sufficient to hide individual voter's preferences (necessary because the document ultimately becomes public). Which nodes merge with which others is deterministic based on the order of the public keys - not the original published order, but after they have been mixed by the Bitcoin clock.
+
+As votes are being merged, individual nodes are verifying signatures to ensure the count is correct - similar to how Bitcoin nodes verify valid transactions
+
+The final meged document will contain the vote tally, and a list of public keys that voted, and attached corresponding signatures of the document.
+
+Another purpose of this stage is to handle nodes that disconnect, which will be detailed.
+
 ## Stage 3 – Voting Round 1
 
 ### Time Period 1
