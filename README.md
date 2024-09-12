@@ -244,7 +244,7 @@ Time periods last a somewhat arbitrary number of blocks based, and can be adjust
 
 Using the Bitcoin clock, the hash can be extracted and incorporated into mixing the public key list in a deterministic way, without any possibility of knowing the value in advance, which would otherwise allow surveillance to know which voters will initially connect to which others - the weakest link in privacy. See [here](#whymerge) for how it is overcome.
 
-### Deterministic key index shuffle to randomise connections
+### Deterministic key index shuffle to randomise connections {#mixingkeys}
 
 The Pubkey List shall be organised in ascending numerical order, and indexed from 0 to max by the coordinator, and all BitVotr apps can verify it. Additionally, the data structure can be hashed to verify accuracy before proceeding.
 
