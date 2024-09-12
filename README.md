@@ -34,12 +34,12 @@ Actually eliminating the need for a coordinator that oversees who is eligible to
 
 BitVotr uses the democracy’s status quo methods to ensure no one is given more than one “ticket to vote”, but introduces public/private key cryptography to prevent anyone impersonating a voter, changing anyone’s vote, destroying votes, or tampering with the tally.
 
-In order for a voter to be approved/identified, they are to submit (as a potential example) the following to a voting coordinator:
+In order for a voter to be approved/identified, there needs to be some interaction with the voting coordinator. There is room for variation on how that is implemented, but the essential components are:
 
-A photo ID of themselves holding their ID AND their self-generated public key (The private key is kept secret. The BitVotr app will generate the key for them). Producing this document is how it can be ensured that one identity gets only one vote.
-Optionally, depending on the perceived risk of photo fakery, a video submission could be added, the video hashed, and the hash added to the photo. The election coordinator then uses these submissions to make an approved list of public keys permitted to vote, one per recorded ID.
-Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail – it’s up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the previously used eligibility process to prove they are eligible to vote.
-
+- The voter has a public/private key (can be produced by the BitVotr app), and only they know the private key (otherwise others, even the coordinator, can cast a vote for them)
+- The coordinator remains responsible for accepting one public key per voter on the list (violation of this will be apparent election fraud)
+- Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail - it's up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the eligibility process to vote.
+- 
 ## Equipment necessary
 Windows, Mac, or Linux computer, or access to a trusted person’s computer. Combining resources (multiple accounts on one computer) is allowable/possible, up to 10 per modern-day computer (this could be changed after results from testing).
 
