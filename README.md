@@ -206,7 +206,7 @@ By getting all the tallies the vote can be quickly counted, and confirmation req
 
 The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. While no data is required to be published to the Bitcoin timechain, it is used as the election clock, and also to extract future sufficiently-random data (block hash) that all voters can unanimously agree on. Nostr is used in the publication phase of the election to widely disseminate signed votes for anyway to download and verify.
 
-### How BitVotr borrows from Bitcoin and Tor private/public keys
+### How BitVotr borrows from Bitcoin and Tor private/public keys {#ppkc}
 
 In Bitcoin, a BIP39 seed phrase is a protcolised way to encode a large random number into words, typically 12 or 24. The words are converted to ASCII bytes (these are integers), and then it goes through a series of steps including a hash to generate a 512-bit private key. 
 
@@ -272,13 +272,13 @@ With a large enough set and a large enough number added, the 0,3,6,2,5,1,4 type 
 
 No one can know the future bitcoin block hash, so no one can know the future calculation that will be done in advance. Also, even though the Bitcoin hashes have about 19 leading zeros, the numbers are still incredibly large and sufficiently large for the purpose of mixing the set.
 
-### Why merge the votes?
+### Why merge the votes? {#whymerge}
 
 The weakest link in privacy is that the public key is known to the Voting Coordinator (VC). We can’t allow a situation where data centres can be infiltrated to track who voted for who. To solve the problem, individuals can randomly (and deterministically) share their vote with another person (anonymously, as they are known only is public keys) and their votes are merged and the tally verified between them. Then they merge their vote with other merged groups and the tally of votes gets bigger. As the merging continues the anonymity of the vote for each public key increases. All of this is directed at protecting privacy from the VC (individuals cannot determine who is behind any given public key unless it is voluntarily revealed).
 
 To determine the vote of a particular individual, the VC would have to interrogate other members during the initial merging stages (who pairs with who can be determined only after the election begins), and demand to retrieve deleted data from the computer. While theoretically possible, doing this at scale is practically impossible and an acceptable weakest link of the BitVotr system.
 
-### Why RAFT Clusters?
+### Why RAFT Clusters? {#whyraft}
 
 First, we must answer why have clusters? Then, why RAFT?
 
@@ -443,7 +443,7 @@ BitVotr is not something easy to implement logistically, particularly with a pop
 
 BitVotr will require the willing participation of the government and the existing Electoral Commission. It might need to be widely demanded for this to be implemented, or a highly successful pilot might be needed.
 
-### Eliminating the central coordinator (Future potential implementation)
+### Eliminating the central coordinator (Future potential implementation) {#edid}
 
 This involves a mature system of decentralised encrypted digital IDs, and the use of zero-knowledge proofs. It allows an election to be organised in a decentralised way, being promoted by anyone who can gather the momentum. Despite keeping votes private, the system can ensure no more than 1 vote is possible per person, while maintaining privacy. It also avoids the need for a “web of trust” which initially sounds nice in theory, but hurts privacy as it links publicly the people you may know or associate with.
 
