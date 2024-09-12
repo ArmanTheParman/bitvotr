@@ -20,7 +20,7 @@ An unintended benefit of BitVotr is the massive cost savings of running an elect
 
 Each voter has a unique identifier which is a public key (for vote publishing), and also doubles as an onion address for P2P communication, and voting network organisation.
 
-Voters use an open-source BitVotr app to connect online to the network, and verify the growing tally of votes – they can verify their own vote is included in the tally, that every other vote is valid, and that there are no double votes.
+Voters use an open-source [BitVotr App](#app) to connect online to the network, and verify the growing tally of votes – they can verify their own vote is included in the tally, that every other vote is valid, and that there are no double votes.
 
 To accommodate those without technology access, a parallel regular vote – in person or mail-in, should be made available.
 
@@ -37,7 +37,7 @@ BitVotr uses the democracy’s status quo methods to ensure no one is given more
 In order for a voter to be approved/identified, there needs to be some interaction with the voting coordinator. There is room for variation on how that is implemented, but the essential components are:
 
 - The voter has a public/private key (can be produced by the BitVotr app), and only they know the private key (otherwise others, even the coordinator, can cast a vote for them)
-- The voter should submit the public key with a photo ID (of themselves HOLDING the printed public key) to the voting coordinator - this allows resolution of a dispute where a voter claims his public key was not included in the list of approved voters. Each voter name has a public key, but also photo ID of a LIVING person, kept with the voting coordinator. Fraudulent votes with dead citizen's names will be eliminated.
+- The voter should submit the public key with a photo ID (of themselves HOLDING the printed public key) to the voting coordinator - this allows resolution of a dispute where a voter claims his public key was not included in the list of approved voters. Each voter name has a public key, but also photo ID of a LIVING person, kept with the voting coordinator. Fraudulent votes with dead citizen's names will be difficult to do. The submission is done by the BitVotr app, which signs the image with the private key, and submits to the voting coordinator.
 - The coordinator remains responsible for accepting one public key per voter on the list (violation of this will be apparent election fraud)
 - Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail - it's up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the eligibility process to vote.
 - 
@@ -81,7 +81,7 @@ Variables for the election, such as the duration of voting rounds will be writte
 
 ## Stage 2 – Entering in the vote
 
-Prior to the election, all voters should access their BitVotr app and run the pre-election program:
+Prior to the election, all voters should access their BitVotr App and run the pre-election program:
 
 1) Select their vote, and sign the vote with the digital private key (all made easy by pressing a button in the app).
 
@@ -113,7 +113,7 @@ Time periods are counted in Bitcoin blocks for easy agreement of time, and no ne
 
 The election begins at the pre-specified Bitcoin Block height, which marks the beginning of time period 1. This period lasts an arbitrary number of blocks based on network factors, yet to be determined.
 
-The BitVotr app extracts the Bitcoin block and obtains its hash. The hash is then used to deterministically mix the order of the PubKey list ([using prime finite fields](#mixingkeys)).
+The BitVotr App extracts the Bitcoin block and obtains its hash. The hash is then used to deterministically mix the order of the PubKey list ([using prime finite fields](#mixingkeys)).
 
 Peer to Peer connections over Tor are made in [RAFT-protocol clusters](#raftclusters) of seven (See [why RAFT clusters](#whyraft)?). The voters’ public keys are also their [onion address for the Tor network](#onionkeys).
 
@@ -202,6 +202,10 @@ By getting all the tallies the vote can be quickly counted, and confirmation req
 ### Why the name, BitVotr?
 
 The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. While no data is required to be published to the Bitcoin timechain, it is used as the election clock, and also to extract future sufficiently-random data (block hash) that all voters can unanimously agree on. Nostr is used in the publication phase of the election to widely disseminate signed votes for anyone to download and verify.
+
+## The BitVotr App {#app}
+
+This name is used generically. The app can be created by anyone and implements the rules of the protocol explained here. Any modification can be made, but the assurances of the protcol should not longer be expected.
 
 ### How BitVotr borrows from Bitcoin and Tor private/public keys {#ppkc}
 
@@ -369,7 +373,7 @@ It is used to give those with connection issues an opportunity to participate in
 
 ### The Dropped Round {#droppedround}
 
-If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allowed – voters can still use the BitVotr app to cast a NOSTR vote. If a vote in the BitVotr tally is found, then no other vote from that public key is considered valid.
+If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allowed – voters can still use the BitVotr App to cast a NOSTR vote. If a vote in the BitVotr tally is found, then no other vote from that public key is considered valid.
 
 ### Explaining Onion Keys {#onionkeys}
 
