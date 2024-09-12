@@ -38,10 +38,10 @@ In order for a voter to be approved/identified, they are to submit (as a potenti
 
 A photo ID of themselves holding their ID AND their self-generated public key (The private key is kept secret. The BitVotr app will generate the key for them). Producing this document is how it can be ensured that one identity gets only one vote.
 Optionally, depending on the perceived risk of photo fakery, a video submission could be added, the video hashed, and the hash added to the photo. The election coordinator then uses these submissions to make an approved list of public keys permitted to vote, one per recorded ID.
-Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or mail – it’s up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the previously used eligibility process to prove they are eligible to vote.
+Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail – it’s up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the previously used eligibility process to prove they are eligible to vote.
 
 ## Equipment necessary
-Windows, Mac, or Linux computer, or access to a trusted person’s computer. Combining resources (multiple accounts on one computer) is allowable/possible, up to 10 per modern day computer (this could be changed after results from testing).
+Windows, Mac, or Linux computer, or access to a trusted person’s computer. Combining resources (multiple accounts on one computer) is allowable/possible, up to 10 per modern-day computer (this could be changed after results from testing).
 
 Minimum computing power equivalent – a Raspberry Pi 4
 
@@ -100,11 +100,11 @@ Prior to the election, all voters should access their BitVotr app and run the pr
 
 The purpose of stage three is to accumulate the individual votes and merge them together, in order to obfuscate which key voted for which candidate. This is similar in concept to Bitcoin mixing transactions.
 
-Vote merging begins with small groups, which subsequently merge with other similar groups until very large groups are formed, sufficient to hide individual voter's preferences (necessary because the document ultimately becomes public). Which nodes merge with which others is deterministic based on the order of the public keys - not the original published order, but after they have been mixed by the Bitcoin clock.
+Vote merging begins with small groups, which subsequently merge with other similar groups until very large groups are formed, sufficient to hide individual voters' preferences (necessary because the document ultimately becomes public). Which nodes merge with which others is deterministic based on the order of the public keys - not the original published order, but after they have been mixed by the Bitcoin clock.
 
 As votes are being merged, individual nodes are verifying signatures to ensure the count is correct - similar to how Bitcoin nodes verify valid transactions
 
-The final meged document will contain the vote tally, and a list of public keys that voted, and attached corresponding signatures of the document.
+The final merged document will contain the vote tally, and a list of public keys that voted, and attached corresponding signatures of the document.
 
 Another purpose of this stage is to handle nodes that disconnect, which will be detailed.
 
@@ -132,7 +132,7 @@ Peer to Peer connections over Tor are made in [RAFT-protocol clusters](#raftclus
 
 The system can handle people dropping out and reconnecting, and can handle low computing power. If the total pool of voters was 300 million, then there would be 17849.7 megaclusters. The incomplete cluster (0.7) can be managed by merging it deterministically and evenly with the others.
 
-As long as a cluster has 4 nodes out of 7 alive, the '[majority rule](#majority)', holds, and the cluster can remain active and connected to lower and higher RAFT levels. When nodes that disconnect and don't reappear in time, the remaining nodes flag their ID's, or the ID of their entire section if a section goes down, to a shared "[dropped list](#droppedlist)" via a gossip protocol.
+As long as a cluster has 4 nodes out of 7 alive, the '[majority rule](#majority)', holds, and the cluster can remain active and connected to lower and higher RAFT levels. When nodes that disconnect and don't reappear in time, the remaining nodes flag their IDs, or the ID of their entire section if a section goes down, to a shared "[dropped list](#droppedlist)" via a gossip protocol.
 
 ### Time Period 2
 
@@ -140,17 +140,17 @@ At the beginning of this period, nodes will be linked to one of the megaclusters
 
 During this time period, votes are exchanged and verified within the RAFT cluster of 7 (level 1 of the megacluster), then the leader nodes of the clusters merge the votes into a [NOSTR data structure](#mergednostr) which is then signed as a whole by each member in the cluster.
 
-**The merged signature is considered "approved" if it passes the [Byzantine Fault Tolerance](#byzantine) standard, which is more strict than the 'majority rule' which is applied to the connectioin status of the RAFT cluster.**
+**The merged signature is considered "approved" if it passes the [Byzantine Fault Tolerance](#byzantine) standard, which is more strict than the 'majority rule' which is applied to the connection status of the RAFT cluster.**
 
 The leader of the cluster then programatically signals to each member that they can delete the individual votes (for enhanced privacy). Once done, the cluster signals their work for Period 2 is complete.
 
-Clusters that fails to reach completion status by the end of Period 2 (ie failed the Byzantine Fault Tolerance standard) are added to the 'dropped list' - that is, the entire cluster of 7 nodes no longer participates in the pyramid for the next time period.
+Clusters that fail to reach completion status by the end of Period 2 (ie failed the Byzantine Fault Tolerance standard) are added to the 'dropped list' - that is, the entire cluster of 7 nodes no longer participates in the pyramid for the next time period.
 
 ### Time Period 3
 
 The leaders of each level 1 cluster (base of the megacluster pyramid) are members of the level 2 cluster "above" as well. One of the seven in level 2 becomes the leader and 6 others become followers (they still remain leaders of the level below of course, otherwise they drop down and get replaced). Note the leader of level 2 is also potentially a leader of levels above as well.
 
-The level 2 leader co-ordinates the merging of each of the 7's (self included) merged Nostr-Tally merged vote, and at the end of the round, they should all be holding a merged-vote of 49 votes, and at least 33 signatures from the lower levels. Thirty-three is the minimum required for Byzantine Fault Tolerance. If it is achieved, the group can progress to time Period 4. Otherwise, the entire group's 49 voters are added to the dropped list.
+The level 2 leader co-ordinates the merging of each of the seven's (with itself included) merged Nostr-Tally merged vote, and at the end of the round, they should all be holding a merged-vote of 49 votes, and at least 33 signatures from the lower levels. Thirty-three is the minimum required for Byzantine Fault Tolerance. If it is achieved, the group can progress to time Period 4. Otherwise, the entire group's 49 voters are added to the dropped list.
 
 ### Time Period 4
 
@@ -204,7 +204,7 @@ By getting all the tallies the vote can be quickly counted, and confirmation req
 
 ### Why the name, BitVotr?
 
-The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. While no data is required to be published to the Bitcoin timechain, it is used as the election clock, and also to extract future sufficiently-random data (block hash) that all voters can unanimously agree on. Nostr is used in the publication phase of the election to widely disseminate signed votes for anyway to download and verify.
+The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. While no data is required to be published to the Bitcoin timechain, it is used as the election clock, and also to extract future sufficiently-random data (block hash) that all voters can unanimously agree on. Nostr is used in the publication phase of the election to widely disseminate signed votes for anyone to download and verify.
 
 ### How BitVotr borrows from Bitcoin and Tor private/public keys {#ppkc}
 
@@ -328,7 +328,7 @@ The RAFT protocol takes care of this so that neither of the isolated leaders can
 
 ### How do the nodes in the higher levels know who else is in their cluster?
 
-For the level 1, all the nodes can simply look up the mixed index to see who is adjacent to them (This is the entire public key list AFTER it has been deterministically mixed over a finite field). They can calculate who should be on their list. But the higher levels need to know who are leaders from the lower levels. They do this by asking the group who their leader is and if that leader has a majority. If so, that node is elevated to the higher level and partakes in electing a leader at that level.
+For level 1, all the nodes can simply look up the mixed index to see who is adjacent to them (This is the entire public key list AFTER it has been deterministically mixed over a finite field). They can calculate who should be on their list. But the higher levels need to know who are leaders from the lower levels. They do this by asking the group who their leader is and if that leader has a majority. If so, that node is elevated to the higher level and partakes in electing a leader at that level.
 
 ### Majority Rule {#majority}
 
@@ -363,19 +363,19 @@ Not really, because the missing group does not count towards the fault tolerance
 
 The dropped list is known to all nodes and is not to be deleted. Similar to how Bitcoin Nodes maintain a mempool of transactions and propagate the contents to other nodes via a gossip protocol, the dropped list is maintained by all nodes and should be identical.
 
-It is used to gived those with connection issues an opportunity to participate in subseqent rounds, and calculate the connection patters in a random but deterministic way. Deterministic is essential, to allow all nodes to independently come to the same conclusion about which node connects to which, and in not way can it be predicted in adance (protects privacy by making it difficult to prepare to snoop).
+It is used to give those with connection issues an opportunity to participate in subsequent rounds, and calculate the connection patterns in a random but deterministic way. Deterministic is essential, to allow all nodes to independently come to the same conclusion about which node connects to which, and in no way can it be predicted in advance (protects privacy by making it difficult to prepare to snoop).
 
 ### The Dropped Round {#droppedround}
 
-If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allow – voters can still use the BitVotr app to cast a NOSTR vote. If a vote in the BitVotr tally is found, then no other vote from that public key is considered valid.
+If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allowed – voters can still use the BitVotr app to cast a NOSTR vote. If a vote in the BitVotr tally is found, then no other vote from that public key is considered valid.
 
 ### Explaining Onion Keys {#onionkeys}
 
-Onion addresses are a form of public keys and are derivd from private keys. The cryptography is based on the elliptic curve, “Curve25519”. Onion addresses are used like IP address, but they can also be used in all the other ways public/private key cryptography can, including signing and verifying messages.
+Onion addresses are a form of public keys and are derived from private keys. The cryptography is based on the elliptic curve, “Curve25519”. Onion addresses are used like IP addresses, but they can also be used in all the other ways public/private key cryptography can, including signing and verifying messages.
 
 ### On Privacy
 
-Level 1 is weakest link in privacy – each node knows the other’s vote with certainty, but does not know who they are. With subsequent merges, the list of voters and the tally grows, and so does the obscurity of which key voted for who. Eventually all groups will be merged and tallied. As the nodes merge their data, previous data is dropped and deleted to protect privacy; this removes the risk of subsequent interrogation of individuals for inital connection data.
+Level 1 is the weakest link in privacy – each node knows the other’s vote with certainty, but does not know who they are. With subsequent merges, the list of voters and the tally grows, and so does the obscurity of which key voted for who. Eventually, all groups will be merged and tallied. As the nodes merge their data, previous data is dropped and deleted to protect privacy; this removes the risk of subsequent interrogation of individuals for initial connection data.
 
 ### Examples of merging votes
 
@@ -455,7 +455,7 @@ When they add say a Driver Licence, the issuer can confirm using a ZK proof that
 
 To remove the need for an electoral coordinator, the announcement/advertisement of any proposed election should come with several onion addresses for spawning the P2P network. It should also come with the block height times for the election conditions. At the specified block time, users can connect to the initial seed onion nodes and submit the encrypted digital ID with a zero-knowledge proof to prove their connecting-onion-address is included in the ID provided. Their name does not need to be divulged, only that their ID is valid and they have an onion address. In this way, a voter is proving their identity, and their onion address, making sure that they are eligible to vote, and cannot vote twice (as only one onion is possible in a digital ID).
 
-At this point a system is needed to organise nodes as they get approved and vetted by a threshold of random nodes.
+At this point, a system is needed to organise nodes as they get approved and vetted by a threshold of random nodes.
 
 Once all the nodes are vetted. A final list can be made from which voting rounds can begin.
 
