@@ -37,6 +37,7 @@ BitVotr uses the democracy’s status quo methods to ensure no one is given more
 In order for a voter to be approved/identified, there needs to be some interaction with the voting coordinator. There is room for variation on how that is implemented, but the essential components are:
 
 - The voter has a public/private key (can be produced by the BitVotr app), and only they know the private key (otherwise others, even the coordinator, can cast a vote for them)
+- The voter should submit the public key with a photo ID (of themselves HOLDING the printed public key) to the voting coordinator - this allows resolution of a dispute where a voter claims his public key was not included in the list of approved voters. Each voter name has a public key, but also photo ID of a LIVING person, kept with the voting coordinator. Fraudulent votes with dead citizen's names will be eliminated.
 - The coordinator remains responsible for accepting one public key per voter on the list (violation of this will be apparent election fraud)
 - Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail - it's up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the eligibility process to vote.
 - 
@@ -58,13 +59,9 @@ The Voting event is made up of three stages.
 - Stage 4 – Publication
 ## Stage 1 – Preparation
 
-An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate a random 12-word seed which is used to produce their private key and public key (see basics of [seeds and keys](#ppkc) in the appendix).
+An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss is regrettable and means losing the ability to vote with BitVotr, but a physical vote may still be available, depending on the specific election arrangement. [What if keys are stolen?](#stolen)
 
-The private key is stored in the app and is password protected. The 12-word seed should be physically written down and kept safe, to allow restoration of the private key if needed. If the private key or the app is lost, it can be regenerated with the 12-word seed, but losing both is unrecoverable – while that is regrettable, it is not catastrophic; it means losing the ability to vote with BitVotr, but a physical vote may still be available, depending on the specific election arrangement.
-
-Stolen keys can be cancelled on request to the coordinator with whatever manual ID verification they require. Cancelling a stolen key means the thief can’t vote, but also, the ability for the “victim” to vote must be cancelled – as being permitted to vote would otherwise introduce the risk of double-voting fraud.
-
-**The Public Key List** of every registered voter is to be published well before the election date, allowing anyone to check their application to vote has been accepted. Once on the list, the ability to vote is assured.
+**The Public Key List** of every registered voter is to be published well before the election date, allowing anyone to check their application to vote has been accepted. Once on the list, the ability to vote is assured. Mass fraud at this stage, with denial of voting, will be apparent.
 
 The list allows anyone to check the maximum number of votes that can be cast (equivalent to the number of keys on the public key list), and compare that with the size of the voting population they believe is true.
 
@@ -208,6 +205,8 @@ The name is a mixture of Bitcoin, Voting, and Nostr, reflecting the design. Whil
 
 ### How BitVotr borrows from Bitcoin and Tor private/public keys {#ppkc}
 
+Exactly how private key entropy is generated and stored is not part of the protocol, but a suggestion is to use BIP39 to generate entropy and then use that to implement cryptography based on the Ed25519 curve (see below). 
+
 In Bitcoin, a BIP39 seed phrase is a protcolised way to encode a large random number into words, typically 12 or 24. The words are converted to ASCII bytes (these are integers), and then it goes through a series of steps including a hash to generate a 512-bit private key. 
 
 At this point in the chain of events, public/private key cryptography is possible. Before this, the system is just a protocol to get to the private key, and done for ease of human recording with minimal chance of error.
@@ -231,6 +230,9 @@ known as Curve25519. As opposed to secp256k1 used in Bitcoin with the finite fie
 <p align="center">
 <img src="https://github.com/ArmanTheParman/bitvotr_protocol/blob/5fa0713e76e3f37afd78881d30007cb6b33b43bf/images/eq2.png" alt="Equation 2" width="30%;"/>
 </p>
+
+### What if keys are stolen? {#stolen}
+Stolen keys can be cancelled on request to the coordinator with whatever manual ID verification they require. Cancelling a stolen key means the thief can't vote, but also, the ability for the "victim" to vote must be cancelled - as being permitted to vote would otherwise introduce the risk of double-voting fraud.
 
 ### Is the vote immutable?
 
