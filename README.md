@@ -236,7 +236,7 @@ known as Curve25519. As opposed to secp256k1 used in Bitcoin with the finite fie
 
 The vote cannot be changed because everyone's vote is merged in large groups, and any tampering becomes **evident**. Immutability is not important per se, as long-term preservation of data is not the objective - rather what is important is the ability to know if the vote has been **changed**. There is no need to publish anything to the Bitcoin network, as nothing would be gained. Any manipulation becomes evidently invalid. Only the valid version of the count can persist.
 
-### Election time periods
+### Election time periods {#periods}
 
 The election begins at the specified Bitcoin Block height set by the election coordinator, “time period 1”.
 
@@ -254,13 +254,13 @@ Using prime finite field math, the public keys’ indexes can effectively be ran
 
 The largest index number that is also a prime number is found (using code and achieved in seconds). We shall call this number, “P”. This key and the ones above are set aside, leaving a P number of keys in the set (zero to P-1).
 
-A special property of such a collection with a prime number of elements is that if you take ANY number and ***repeatedly*** add it ato ANY initial index number, and use %prime (modulo prime) arithmetic, then every other number will eventually be hit exactly once before the value returns to the original. For example…
+A special property of such a collection with a prime number of elements is that if you take ANY number and ***repeatedly*** add it to ANY initial index number, and use %prime (modulo prime) arithmetic, then every other number will eventually be hit exactly once before the value returns to the original. For example…
 
-Numbers 0, 1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We can take ANY number, let's say 10. With modulo 7 arithmetic, 10%7 is the same as 3. Now let’s repeatedly add 3 to any of the 7 elements, let’s arbitrarily start with 4.
+Numbers 0,1,2,3,4,5,6 are in a set with 7 elements, and 7 is a prime number. We can take ANY number, let's say 10. With modulo 7 arithmetic, 10%7 is the same as 3. Now let’s repeatedly add 3 to any of the 7 elements, let’s arbitrarily start with 4.
 
 <p align="center"> 4+3%7=0 <br> 0+3%7=3 <br> 3+3%7=6 <br> 6+3%7=2 <br> 2+3%7=5 <br> 5+3%7=1 <br> 1+3%7=4 <br>
   
-Note that we used modulo twice to go from 10 to 3 and then used it again in the equation – that doesn’t matter. We could easily have added 10 to each number and used modulo later. As long as it is done just before getting to the answer, it doesnt matter. You can even apply it to every number and it won’t make a difference.
+Note that we used modulo twice to go from 10 to 3 and then used it again in the equation – that doesn’t matter. We could easily have added 10 to each number and used modulo later. As long as it is done just before getting to the answer, it doesn't matter. You can even apply it to every number and it won’t make a difference.
 
 In the above example, we started with 4, got to 0, 3, 6, 2, 5, 1, and then back to 4. Every other number was “hit” on the way back to 4.
 
@@ -270,17 +270,17 @@ With a large enough set and a large enough number added, the 0,3,6,2,5,1,4 type 
 
 ***Mixed_index_of key = key_index + starting_Bitcoin_block_hash % prime_of_set***
 
-No one can know the future bitcoin block hash, so no one can know the future calculation that will be done in advance. Also, even though the Bitcoin hashes have about 19 leading zeros, the numbers are still incredibly large and sufficiently large for the purpose of mixing the set.
+No one can know the future Bitcoin Block hash, so no one can know the future calculation that will be done in advance. Also, even though the Bitcoin hashes have about 19 leading zeros, the numbers are still incredibly large and sufficiently large for the purpose of mixing the set.
 
 ### Why merge the votes? {#whymerge}
 
-The weakest link in privacy is that the public key is known to the Voting Coordinator (VC). We can’t allow a situation where data centres can be infiltrated to track who voted for who. To solve the problem, individuals can randomly (and deterministically) share their vote with another person (anonymously, as they are known only is public keys) and their votes are merged and the tally verified between them. Then they merge their vote with other merged groups and the tally of votes gets bigger. As the merging continues the anonymity of the vote for each public key increases. All of this is directed at protecting privacy from the VC (individuals cannot determine who is behind any given public key unless it is voluntarily revealed).
+The weakest link in privacy is that the public key is known to the Voting Coordinator (VC). We can’t allow a situation where data centres can be infiltrated to track who voted for who. To solve the problem, individuals can randomly (and deterministically) share their vote with another person (anonymously, as they are known only as public keys) and their votes are merged and the tally verified between them. Then they merge their vote with other merged groups and the tally of votes gets bigger. As the merging continues the anonymity of the vote for each public key increases. All of this is directed at protecting privacy from the VC (individuals cannot determine who is behind any given public key unless it is voluntarily revealed).
 
 To determine the vote of a particular individual, the VC would have to interrogate other members during the initial merging stages (who pairs with who can be determined only after the election begins), and demand to retrieve deleted data from the computer. While theoretically possible, doing this at scale is practically impossible and an acceptable weakest link of the BitVotr system.
 
 ### Why RAFT Clusters? {#whyraft}
 
-First, we must answer why have clusters? Then, why RAFT?
+First, we must answer, "why have clusters?" Then, "why RAFT?"
 
 If merging one to one, then too much dependence is placed on another individual being online for a vote to get merged and continue to merge with others. Having a group of seven is a balance between not relying on only one person, increasing initial merge privacy, and computing power (large clusters demand more power, and 7 is estimated to be reasonable for a Raspberry Pi 4).
 
@@ -288,9 +288,9 @@ An individual can drop out and the remaining people in the group can continue on
 
 Using the RAFT protocol, reliable agreement in the state of a changing document (the merged vote in the cluster) can be achieved.
 
-### RAFT protocol clusters
+### RAFT protocol clusters {#raftclusters}
 
-Information about what the RAFT consensus protocol is and how it works can be learned directly from the creator in an excellent lecture he released on [YouTube](#https://www.youtube.com/watch?v=YbZ3zDzDnrw).
+Information about what the RAFT consensus protocol is and how it works can be learned directly from one of the creators in an excellent lecture he released on [YouTube](#https://www.youtube.com/watch?v=YbZ3zDzDnrw).
 
 To summarise, clusters of computers communicate initially on equal footing in a P2P network, and I’ll call each a “node”. Then following the protocol, a leader is chosen for the cluster (achieved by randomly-timed self-nomination, then verification by followers, vote, and approval). The leader communicates with the other “nodes” which become followers. The leader directs entries to be made in each of the follower’s logs (and its own) using a system of communication that allows for an agreed version of the log to exist.
 
@@ -298,7 +298,7 @@ The purpose of the RAFT design is to achieve consensus between nodes in a shared
 
 Malicious actors need to be considered also, but BitVotr uses a different system overlaid on top of the RAFT protocol to do that. This involves using Byzantine Fault Tolerance for VOTE/SIGNATURE approval, not for the health of the p2p network. This is discussed elsewhere.
 
-### RAFT Megaclusters
+### RAFT Megaclusters {#megaclusters}
 
 With millions of voters, their computers (all with variable computing power) will not be able to tolerate RAFT consensus communication. To overcome this problem, a Hierarchical RAFT system will be used. Clusters of 7 will elect a leader to join a higher-order cluster. Every initial cluster shall eventually be part of a pyramid of 7x7x7x7x7 voters for a total of 16,807 voters in each pyramid. Their vote and signature data should be uniformly agreed on, and become final – each member in the pyramid ends up with an identical copy.
 
@@ -330,11 +330,11 @@ The RAFT protocol takes care of this so that neither of the isolated leaders can
 
 For the level 1, all the nodes can simply look up the mixed index to see who is adjacent to them (This is the entire public key list AFTER it has been deterministically mixed over a finite field). They can calculate who should be on their list. But the higher levels need to know who are leaders from the lower levels. They do this by asking the group who their leader is and if that leader has a majority. If so, that node is elevated to the higher level and partakes in electing a leader at that level.
 
-### Majority Rule
+### Majority Rule {#majority}
 
 The majority rule is used to ensure a reliable merged vote in a RAFT cluster. As long as the majority of nodes agree, with absolute certainty, the merged vote state will not be faulty, and it can tolerate splits in communication – this is a feature of the RAFT protocol.
 
-### Byzantine Fault Tolerance (BFT)
+### Byzantine Fault Tolerance (BFT) {#byzantine}
 
 This tolerance level assesses the system’s resilience to malicious actors, not just general faults, who may attempt to manipulate the result. It is distinct from the factors that determine the overall health of a Raft cluster.
 
@@ -355,21 +355,21 @@ Where n being 7, f can be calculated as 2, the number of tolerable faults.
 </p>
 <br>
 
-### What if a group fails Byzantine Falt Tolerance and exits the merging cascade, does it reduce the chance of the remaining groups to achieve approved merges?
+### What if a group fails Byzantine Fault Tolerance and exits the merging cascade, does it reduce the chance of the remaining groups to achieve approved merges?
 
-Not really, because the mising group does not count towards the fault tolerance level. Eg, in a level 3 group that would normally have 343 signatories, if one of the level 2 groups were missing from the previous round, then only 294 votes are being merged. The tolerance level then changes to 197 instead of the original 229. This change is based on the BFT formula.
+Not really, because the missing group does not count towards the fault tolerance level. Eg, in a level 3 group that would normally have 343 signatories, if one of the level 2 groups were missing from the previous round, then only 294 votes are being merged. The tolerance level then changes to 197 instead of the original 229. This change is based on the BFT formula.
 
-### The Dropped List
+### The Dropped List {#droppedlist}
 
 The dropped list is known to all nodes and is not to be deleted. Similar to how Bitcoin Nodes maintain a mempool of transactions and propagate the contents to other nodes via a gossip protocol, the dropped list is maintained by all nodes and should be identical.
 
 It is used to gived those with connection issues an opportunity to participate in subseqent rounds, and calculate the connection patters in a random but deterministic way. Deterministic is essential, to allow all nodes to independently come to the same conclusion about which node connects to which, and in not way can it be predicted in adance (protects privacy by making it difficult to prepare to snoop).
 
-### The Dropped Round
+### The Dropped Round {#droppedround}
 
-If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allow – voters can still use the BitVotr app to cast a NOSTR vote. If a vote in the BitVotr talley is found, then no other vote from that public key is considered valid.
+If nodes decline or are unable to join for the dropped round, then their vote may be cast in the ‘final round’. If that opportunity is missed, they’ll have to submit their vote outside the BitVotr system. One such way is to cast a NOSTR event and sign their vote with a time stamp. It is up to the Voting Coordinator if this type of vote is to be allow – voters can still use the BitVotr app to cast a NOSTR vote. If a vote in the BitVotr tally is found, then no other vote from that public key is considered valid.
 
-### Explaining Onion Keys
+### Explaining Onion Keys {#onionkeys}
 
 Onion addresses are a form of public keys and are derivd from private keys. The cryptography is based on the elliptic curve, “Curve25519”. Onion addresses are used like IP address, but they can also be used in all the other ways public/private key cryptography can, including signing and verifying messages.
 
