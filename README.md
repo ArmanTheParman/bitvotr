@@ -34,13 +34,14 @@ Actually eliminating the need for a coordinator that oversees who is eligible to
 
 BitVotr uses the democracy’s status quo methods to ensure no one is given more than one “ticket to vote”, but introduces public/private key cryptography to prevent anyone impersonating a voter, changing anyone’s vote, destroying votes, or tampering with the tally.
 
-In order for a voter to be approved/identified, there needs to be some interaction with the voting coordinator. There is room for variation on how that is implemented, but the essential components are:
+In order for a voter to be approved/identified, there needs to be some interaction with the voting coordinator. There is room for variation on how that is implemented, but the essential components of the BitVotr protocol are:
 
-- The voter has a public/private key (which can be produced by the BitVotr app), and only they know the private key (otherwise others, even the coordinator, can cast a vote for them)
-- The voter should submit the public key with a photo ID (of themselves HOLDING the printed public key) to the voting coordinator - this allows resolution of a dispute where a voter claims his public key was not included in the list of approved voters. Each voter's name has a public key, but also a photo ID of a LIVING person, kept with the voting coordinator. Fraudulent votes with dead citizen's names will be difficult to do to a significant extent without the fraud being exposed. The image is signed by the BitVotr App, and can be submitted to the voting coordinator either via the app, or exported and done independently (physical or electronic).
-- The coordinator remains responsible for accepting one public key per voter on the list (violation of this will be apparent election fraud)
-- Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail - it's up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted. Regardless, voters will still need to undergo the eligibility process to vote.
-- 
+- The voter has a public/private key and only they know the private key (otherwise others, even the coordinator, can cast a vote for them). The public key is also somewhat private - known to the government, but not the general public, similar to social security numbers.
+- The keys are part of a new **Proof of Tax** concept. If citizens simply create one-time keys for the purposes of voting, then the election coordinator can defraud the system by creating keys on behalf of citizens, stealing their votes. To mitigate that risk, a system parallel to voting is required. Citizens are to control their own private key, and submit their public key to the government in order for it to be associated with their identity and tax payment obligations (or even government benefits) - eg it can be linked to the SSN or tax file number.
+- Tax returns should be signed with the private key (and acknowledged with the public key by the government) - then, whichever public key is being used by the citizen to pay tax, is the one the government has to acknowledge as being the real public key during an election. Using keys in this way also eliminates the need for leaking privacy - eg no need for citizens to publish their SSN or public key to the general public, or to use a web-of-trust; the latter being a privacy problem because it leaks information about who one associates with.
+- Trying to defraud an election by making up public keys will allow a citizen to dispute that their genuine key is not being used, and they have a tax history to defend their claims in court. The new made-up keys will also cancel the citizen's ability to sign their tax returns!
+The coordinator is responsible for publishing one valid voting public key per voter on a **Public Key List** (defrauding the list with fake keys will be apparent election fraud, as the total size will not stack up to population numbers).- Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail - it's up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted.
+- Those who do not wish to use proof-of-tax may opt out but they also automatically opt out of BitVotr.
 ## Equipment necessary
 Windows, Mac, or Linux computer, or access to a trusted person’s computer. Combining resources (multiple accounts on one computer) is allowable/possible, up to 10 per modern-day computer (this could be changed after results from testing).
 
@@ -59,21 +60,17 @@ The Voting event is made up of three stages.
 - Stage 4 – Publication
 ## Stage 1 – Preparation
 
-An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss is regrettable and means losing the ability to vote with BitVotr (to reduce DoS attacks), but a physical vote may still be available, depending on the specific election arrangement. [What if keys are stolen?](#stolen)
+An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss of keys is regrettable, but various strategies can be employed. [What if keys are lost or stolen?](#stolen)
 
-**The Public Key List** of every registered voter is to be published well before the election date, allowing anyone to check their application to vote has been accepted. Once on the list, the ability to vote is assured. Mass fraud at this stage, with denial of voting, will be apparent.
+The Public Key List of every registered voter is to be published well before the election date, allowing anyone to check their ability to vote, and dispute if necessary. Once on the list, the ability to vote is assured. Mass fraud at this stage, with denial of voting, will be apparent.
 
-The list allows anyone to check the maximum number of votes that can be cast (equivalent to the number of keys on the public key list), and compare that with the size of the voting population they believe is true.
+The list allows anyone to check the maximum number of votes that can be cast (equivalent to the number of keys on the Public Key List), and compare that with the size of the voting population they believe is true.
 
 It is up to the election coordinator that no one has a double-vote, as is done currently, but if defrauded to any significant extent, the number of public keys would then exceed the anticipated number of eligible voters.
 
-No one but the coordinator at this stage can know which key belongs to who, but this potential privacy weakness will be dealt with during the voting process, as will be shown during the explanation of the voting rounds. (Also see: [Why merge votes?](#whymerge) and [Why RAFT clusters?](#whyraft)).
+The identity of any public key holders is only relatively private, but this potential privacy weakness will be dealt with during the voting process, as will be shown during the explanation of the voting rounds. (Also see: [Why merge votes?](#whymerge) and [Why RAFT clusters?](#whyraft)).
 
-If there are disputes raised that someone’s key is not published, then this can be settled with the photo ID and signature that was initially submitted. Although identities can be faked by using AI-generated images (resulting in excessive keys to cast votes), if done to any significant extent, the fraud becomes undeniably apparent before the election has started.
-
-*This is consistent with the aims of BitVotr, which, stated in another way, is to make it difficult to hide the true nature of fraudulent elections.*
-
-During stage 1, the conditions of the election are published by the coordinator.
+During stage 1, the terms and conditions of the election are published by the coordinator.
 
 The start date shall be set to the Bitcoin network’s clock, ie a Block Height, for very important reasons that will become apparent later. Provided humanity is not on the brink of extinction, the Bitcoin clock is almost as reliable as the sun coming up.
 
@@ -87,7 +84,7 @@ Prior to the election, all voters should access their BitVotr App and run the pr
 
 2) Acknowledge the Bitcoin block to start the election, to be ready and online at the time
 
-3) Download the Pubkey List (large file)
+3) Download the Public Key List (large file)
 
 4) A completion signal could be sent to the co-ordinator (might not be necessary)
 
@@ -236,11 +233,10 @@ known as Curve25519. As opposed to secp256k1 used in Bitcoin with the finite fie
 </p>
 
 ### What if keys are stolen? {#stolen}
-Stolen keys can be cancelled on request to the coordinator with whatever manual ID verification they require. Cancelling a stolen key means the thief can't vote, but also, the ability for the "victim" to vote must be cancelled - as being permitted to vote would otherwise introduce the risk of double-voting fraud, and DoS attacks.
+Stolen or lost keys would mean the key needs to be cancelled and a new one registered. This will unfortunately nullify the proof-of-tax history that can back a citizen up if their key was not properly accepted. It is up to each democracy if they wish to implement a rule such as - "a minimum of one signed tax history is required before a key is able to be used in an election". There is no need for that to be mandatory in this protocol.
 
 ### Is the vote immutable?
-
-The vote cannot be changed because everyone's vote is merged in large groups, and any tampering becomes **evident**. Immutability is not important per se, as long-term preservation of data is not the objective - rather what is important is the ability to know if the vote has been **changed**. There is no need to publish anything to the Bitcoin network, as nothing would be gained. Any manipulation becomes evidently invalid. Only the valid version of the count can persist.
+The vote cannot be changed because everyone's vote is merged in large groups, thousands of signatures are valid for the large merged votes, and any tampering becomes **evident** by invalidating signatures. Immutability is not important per se, as long-term preservation of data is not the objective - rather what is important is the ability to know if the vote has been **changed**. There is no need to publish anything to the Bitcoin network, as nothing would be gained. Any manipulation becomes evidently invalid. Only the valid version of the count can persist.
 
 ### Election time periods {#periods}
 
