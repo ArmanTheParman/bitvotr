@@ -11,10 +11,10 @@ The good questions I'm responding to in private comments will be added (includin
 
 ### Networking
 Currently, the protocol specifies using Tor for peer-to-peer communication. This will only work for small elections. If scaling to 300M
-people, as I understand it, the Tor network will not be able to tolerate the required bandwith, and nor will it tolerate the creation
+people, as I understand it, the Tor network will not be able to tolerate the required bandwidth, and nor will it tolerate the creation
 of 300M hidden services.
 
-When considering an alternative, it's important to recognise the need to hide IP addresses, as they are associated with identidies. When a
+When considering an alternative, it's important to recognise the need to hide IP addresses, as they are associated with identities. When a
 public key and and IP come together, too much information is revealed about a voter, and their vote can be exposed, or at least, there will
 be the concern by voters that it could be exposed.
 
@@ -23,6 +23,6 @@ As a potential candidate, I am considering HolePunch, a system used by Keet. I n
 Another is Veiled, which as I understand won't have the IP address problem, but I am unsure if it can scale.
 
 ### RAFT
-The Raft protcol is well described and a desicion needs to be made about wheter to create libraries from scratch or use existing libraries
+The Raft protocol is well described and a decision needs to be made about whether to create libraries from scratch or use existing libraries
 and from which programming language. This might influence which language to use for the BitVotr app overall.
 
