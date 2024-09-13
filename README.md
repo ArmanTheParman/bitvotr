@@ -1,5 +1,5 @@
 # BitVotr
-v1.0.2, Arman The Parman
+v1.0.3, Arman The Parman
 
 ## What is BitVotr?
 
@@ -445,6 +445,12 @@ Depending on pilot tests, time periods can be titrated (lengthened or shortened)
 BitVotr is not something easy to implement logistically, particularly with a population not ready for such technology. It will require a transition period and testing, but in the future, using such technology will be second nature for most of the population.
 
 BitVotr will require the willing participation of the government and the existing Electoral Commission. It might need to be widely demanded for this to be implemented, or a highly successful pilot might be needed.
+
+### Can't people sell their votes? Isn't that a problem?
+
+If selling a vote is illegal (even though politicians buying votes seems to be acceptable), then it is not the design of BitVotr to make that impossible. Many illegal things are possible and not the obligation of inventors to prevent them from being possible.
+
+Having said that, if that is such a concern for a country that BitVotr wouldn't be adopted, then in-person voting can still take place in conjunction with BitVotr. This would be far more cumbersome and expensive, but at least citizens will still get the opportunity to independently count and verify the election result.
 
 ### Eliminating the central coordinator (Future potential implementation) {#edid}
 
