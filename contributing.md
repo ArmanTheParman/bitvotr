@@ -9,12 +9,6 @@ The latest change after several people have already reviewed, is the introductio
 I will split the Appendix into a Q&A and a proper appendix.
 The good questions I'm responding to in private comments will be added (including any asked in the GitHub issues sections).
 
-### DoS considerations
-Currently, I have voters initiating a request to vote by creating a public/private key and submitting a photo of themselves holding the public key. 
-This allows the voting coordinator to prove a citizen has submitted a vote, and defends against fraudulent accusations.
-However, there is a risk that the coordinator can create fake evidence and fake keys, denying real voters the chance to vote - complaints can be
-met with fake images by the coordinator. In order to solve this, I am going to add a new feature - Proof of Tax.
-
 ### Networking
 Currently, the protocol specifies using Tor for peer-to-peer communication. This will only work for small elections. If scaling to 300M
 people, as I understand it, the Tor network will not be able to tolerate the required bandwith, and nor will it tolerate the creation
