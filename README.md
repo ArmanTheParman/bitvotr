@@ -1,5 +1,5 @@
 # BitVotr
-v1.0.1, Arman The Parman
+v1.0.2, Arman The Parman
 
 ## What is BitVotr?
 
@@ -15,7 +15,7 @@ Achieving the following three aims simultaneously is the innovation of BitVotr:
 - Each voter can verify their vote was counted
 - Voter privacy from citizens, election coordinator, and government.
 
-An unintended benefit of BitVotr is the massive cost savings of running an election.
+An incidental benefit of BitVotr is the massive cost savings of running an election.
 
 ## Overview
 
