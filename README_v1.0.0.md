@@ -1,4 +1,5 @@
 # BitVotr
+v1.0.0, released 13 September 2024, Arman The Parman
 
 ## What is BitVotr?
 
