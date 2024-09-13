@@ -59,7 +59,7 @@ The Voting event is made up of three stages.
 - Stage 4 – Publication
 ## Stage 1 – Preparation
 
-An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss is regrettable and means losing the ability to vote with BitVotr, but a physical vote may still be available, depending on the specific election arrangement. [What if keys are stolen?](#stolen)
+An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss is regrettable and means losing the ability to vote with BitVotr (to reduce DOS attacks), but a physical vote may still be available, depending on the specific election arrangement. [What if keys are stolen?](#stolen)
 
 **The Public Key List** of every registered voter is to be published well before the election date, allowing anyone to check their application to vote has been accepted. Once on the list, the ability to vote is assured. Mass fraud at this stage, with denial of voting, will be apparent.
 
