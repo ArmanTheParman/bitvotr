@@ -59,7 +59,7 @@ The Voting event is made up of three stages.
 - Stage 4 – Publication
 ## Stage 1 – Preparation
 
-An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss is regrettable and means losing the ability to vote with BitVotr (to reduce DOS attacks), but a physical vote may still be available, depending on the specific election arrangement. [What if keys are stolen?](#stolen)
+An open-source app, the BitVotr app, is made available for download. Using the app, voters will generate their [public/private keys](#ppkc) which is stored securely and ideally backed up. Loss is regrettable and means losing the ability to vote with BitVotr (to reduce DoS attacks), but a physical vote may still be available, depending on the specific election arrangement. [What if keys are stolen?](#stolen)
 
 **The Public Key List** of every registered voter is to be published well before the election date, allowing anyone to check their application to vote has been accepted. Once on the list, the ability to vote is assured. Mass fraud at this stage, with denial of voting, will be apparent.
 
@@ -236,7 +236,7 @@ known as Curve25519. As opposed to secp256k1 used in Bitcoin with the finite fie
 </p>
 
 ### What if keys are stolen? {#stolen}
-Stolen keys can be cancelled on request to the coordinator with whatever manual ID verification they require. Cancelling a stolen key means the thief can't vote, but also, the ability for the "victim" to vote must be cancelled - as being permitted to vote would otherwise introduce the risk of double-voting fraud.
+Stolen keys can be cancelled on request to the coordinator with whatever manual ID verification they require. Cancelling a stolen key means the thief can't vote, but also, the ability for the "victim" to vote must be cancelled - as being permitted to vote would otherwise introduce the risk of double-voting fraud, and DoS attacks.
 
 ### Is the vote immutable?
 
