@@ -1,5 +1,5 @@
 # BitVotr
-v1.0.0, released 13 September 2024, Arman The Parman
+v1.0.1, Arman The Parman
 
 ## What is BitVotr?
 
@@ -11,7 +11,7 @@ v1.0.0, released 13 September 2024, Arman The Parman
 
 Achieving the following three aims simultaneously is the innovation of BitVotr:
 
-- Election provably not manipulated (anyone can verify the total count is honest)
+- Election count provably not manipulated (anyone can verify the total count is correct)
 - Each voter can verify their vote was counted
 - Voter privacy from citizens, election coordinator, and government.
 
