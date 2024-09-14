@@ -26,3 +26,10 @@ Another is Veiled, which as I understand won't have the IP address problem, but 
 The Raft protocol is well described and a decision needs to be made about whether to create libraries from scratch or use existing libraries
 and from which programming language. This might influence which language to use for the BitVotr app overall.
 
+Thought needs to be given to the process of selecting the very first leaders to defend against an orchestrated leader attack. I'm thinking to double hash the starting Bitcoin block to use the randomness to determine which of the seven nodes in the initial clusters becomes leader. 
+
+### Fake pubkeys
+Should the paper votes be before digital votes? Then total digital vote harder to fake with fake keys. the worst for privacy for people who fail the digital vote and need to vote by paper afterwards. 
+
+If the general paper vote is after the digital vote, then it's more complicated if fake digital votes were cast. People can turn up to a paper ballot and dispute the digital vote. That can be resolved because of proof of tax, but it opens the door to a DoS.
+
