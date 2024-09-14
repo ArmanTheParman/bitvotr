@@ -1,5 +1,5 @@
 # BitVotr
-v1.0.3, Arman The Parman
+v1.0.4, Arman The Parman
 
 ## What is BitVotr?
 
@@ -451,6 +451,12 @@ BitVotr will require the willing participation of the government and the existin
 If selling a vote is illegal (even though politicians buying votes seems to be acceptable), then it is not the design of BitVotr to make that impossible. Many illegal things are possible and not the obligation of inventors to prevent them from being possible.
 
 Having said that, if that is such a concern for a country that BitVotr wouldn't be adopted, then in-person voting can still take place in conjunction with BitVotr. This would be far more cumbersome and expensive, but at least citizens will still get the opportunity to independently count and verify the election result.
+
+### What if someone abandons their right to vote digitally, can't a rogue government employee steal there vote?
+
+This fraud cannot go unnoticed because the people relinquishing their right to vote digitally will turn up in person to vote by paper. They will then be turned away because they've already been registered to vote digitally.
+
+Because the keys used don't have a tax history (or signature interaction with government services) then those votes can easily be disputed.
 
 ### Eliminating the central coordinator (Future potential implementation) {#edid}
 
