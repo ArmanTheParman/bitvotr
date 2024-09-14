@@ -452,7 +452,7 @@ If selling a vote is illegal (even though politicians buying votes seems to be a
 
 Having said that, if that is such a concern for a country that BitVotr wouldn't be adopted, then in-person voting can still take place in conjunction with BitVotr. This would be far more cumbersome and expensive, but at least citizens will still get the opportunity to independently count and verify the election result.
 
-### What if someone abandons their right to vote digitally, can't a rogue government employee steal there vote?
+### What if someone abandons their right to vote digitally, can't a rogue government employee steal their vote?
 
 This fraud cannot go unnoticed because the people relinquishing their right to vote digitally will turn up in person to vote by paper. They will then be turned away because they've already been registered to vote digitally.
 
