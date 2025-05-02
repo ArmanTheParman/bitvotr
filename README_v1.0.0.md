@@ -1,5 +1,5 @@
 # BitVotr
-v1.0.4, Arman The Parman
+v1.0.0, released 13 September 2024, Arman The Parman
 
 ## What is BitVotr?
 
@@ -11,11 +11,11 @@ v1.0.4, Arman The Parman
 
 Achieving the following three aims simultaneously is the innovation of BitVotr:
 
-- Election count provably not manipulated (anyone can verify the total count is correct)
+- Election provably not manipulated (anyone can verify the total count is honest)
 - Each voter can verify their vote was counted
 - Voter privacy from citizens, election coordinator, and government.
 
-An incidental benefit of BitVotr is the massive cost savings of running an election.
+An unintended benefit of BitVotr is the massive cost savings of running an election.
 
 ## Overview
 
@@ -38,7 +38,7 @@ BitVotr uses the democracy’s status quo methods to ensure no one is given more
 In order for a voter to be approved/identified, there needs to be some interaction with the voting coordinator. There is room for variation on how that is implemented, but the essential components of the BitVotr protocol are:
 
 - The voter has a public/private key and only they know the private key (otherwise others, even the coordinator, can cast a vote for them). The public key is also somewhat private - known to the government, but not the general public, similar to social security numbers.
-- The keys are part of a new **Proof of Tax** concept. If citizens simply create one-time keys for the purposes of voting, then the election coordinator can defraud the system by creating keys on behalf of citizens, stealing their votes. To mitigate that risk, a system parallel to voting is required. Citizens are to control their own private key, and submit their public key to the government in order for it to be associated with their identity and tax payment obligations (or even government benefits) - eg it can be linked to the SSN or tax file number; any documented interaction involving their identity, to later be able to prove ownership and acceptance of a public key.
+- The keys are part of a new **Proof of Tax** concept. If citizens simply create one-time keys for the purposes of voting, then the election coordinator can defraud the system by creating keys on behalf of citizens, stealing their votes. To mitigate that risk, a system parallel to voting is required. Citizens are to control their own private key, and submit their public key to the government in order for it to be associated with their identity and tax payment obligations (or even government benefits) - eg it can be linked to the SSN or tax file number.
 - Tax returns should be signed with the private key (and acknowledged with the public key by the government) - then, whichever public key is being used by the citizen to pay tax, is the one the government has to acknowledge as being the real public key during an election. Using keys in this way also eliminates the need for leaking privacy - eg no need for citizens to publish their SSN or public key to the general public, or to use a web-of-trust; the latter being a privacy problem because it leaks information about who one associates with.
 - Trying to defraud an election by making up public keys will allow a citizen to dispute that their genuine key is not being used, and they have a tax history to defend their claims in court. The new made-up keys will also cancel the citizen's ability to sign their tax returns!
 The coordinator is responsible for publishing one valid voting public key per voter on a **Public Key List** (defrauding the list with fake keys will be apparent election fraud, as the total size will not stack up to population numbers).- Those who decline the BitVotr system (or are unable to use it) can vote the manual way as before (in person, or by mail - it's up to the democracies to decide that for themselves), but will lose their ability to verify their vote was counted.
@@ -445,18 +445,6 @@ Depending on pilot tests, time periods can be titrated (lengthened or shortened)
 BitVotr is not something easy to implement logistically, particularly with a population not ready for such technology. It will require a transition period and testing, but in the future, using such technology will be second nature for most of the population.
 
 BitVotr will require the willing participation of the government and the existing Electoral Commission. It might need to be widely demanded for this to be implemented, or a highly successful pilot might be needed.
-
-### Can't people sell their votes? Isn't that a problem?
-
-If selling a vote is illegal (even though politicians buying votes seems to be acceptable), then it is not the design of BitVotr to make that impossible. Many illegal things are possible and not the obligation of inventors to prevent them from being possible.
-
-Having said that, if that is such a concern for a country that BitVotr wouldn't be adopted, then in-person voting can still take place in conjunction with BitVotr. This would be far more cumbersome and expensive, but at least citizens will still get the opportunity to independently count and verify the election result.
-
-### What if someone abandons their right to vote digitally, can't a rogue government employee steal their vote?
-
-This fraud cannot go unnoticed because the people relinquishing their right to vote digitally will turn up in person to vote by paper. They will then be turned away because they've already been registered to vote digitally.
-
-Because the keys used don't have a tax history (or signature interaction with government services) then those votes can easily be disputed.
 
 ### Eliminating the central coordinator (Future potential implementation) {#edid}
 
